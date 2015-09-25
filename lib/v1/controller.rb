@@ -1,6 +1,6 @@
 require 'delegate'
 
-class ResourceController < SimpleDelegator # delegates to app, therefore, `Controller.register!(self)` from within an app
+class Controller < SimpleDelegator # delegates to app, therefore, `Controller.register!(self)` from within an app
   class << self
     attr_reader :app
 

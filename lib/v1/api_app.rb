@@ -3,8 +3,11 @@ require 'active_support/inflector'
 require_relative 'base_app'
 require_relative 'models/base'
 require_relative 'requests/base'
+require_relative 'resources/auth_token'
 require_relative 'resources/game_summary'
 require_relative 'resources/league_scoreboard'
+require_relative 'routes/cors_controller'
+require_relative 'routes/log_controller'
 
 module RSA
   module API
@@ -30,21 +33,27 @@ module RSA
           204
         end
 
+        Resources::AuthToken.register!(self)
         Resources::LeagueScoreboard.register!(self)
         Resources::GameSummary.register!(self)
+        Routes::CorsController.register!(self)
+        Routes::LogController.register!(self)
 
         error ModelError do
           e = env['sinatra.error']
+          content_type 'text/plain'
           [400, e.message || 'Could not parse reponse']
         end
 
         error Requests::RsoNotAuthorizedError do
           e = env['sinatra.error']
+          content_type 'text/plain'
           [401, e.message || 'Unauthorized']
         end
 
         error Requests::RsoServerError do
           e = env['sinatra.error']
+          content_type 'text/plain'
           [502, e.message || 'Reality Sports Online server error']
         end
 
@@ -52,6 +61,7 @@ module RSA
           e = env['sinatra.error']
           puts e.message
           puts e.backtrace
+          content_type 'text/plain'
           [500, e.message || 'Unexpected Error']
         end
       end

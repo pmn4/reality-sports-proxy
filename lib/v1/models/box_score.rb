@@ -33,8 +33,8 @@ module RSA
             def inflate_identifiers(instance, node)
               how_not_to_do_href = node.css('table').attr('onclick').value
 
-              instance.week = how_not_to_do_href.scan(/weekNum=(\d+)/)
-              instance.game_id = how_not_to_do_href.scan(/homeTeamID=(\d+)/)
+              instance.week = how_not_to_do_href.scan(/weekNum=(\d+)/).first.first
+              instance.game_id = how_not_to_do_href.scan(/homeTeamID=(\d+)/).first.first
             end
           end
         end

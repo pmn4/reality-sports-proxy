@@ -1,11 +1,11 @@
-require_relative 'resource_controller'
+require_relative '../controller'
 require_relative '../requests/league_scoreboard'
 
 module RSA
   module API
     module V1
       module Resources
-        class LeagueScoreboard < ResourceController
+        class LeagueScoreboard < Controller
           route :get, '/league_scoreboard/:week', :read
 
           def read(week)
