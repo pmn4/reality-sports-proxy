@@ -8,7 +8,7 @@ module RSA
   module API
     module V1
       module Requests
-        class GameSummary < Base
+        class GameSummary < BaseAuthorized
           RSO_PATH = 'Scoreboard.aspx'.freeze
 
           def fetch!(week, home_team_id = nil)

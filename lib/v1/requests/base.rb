@@ -35,22 +35,41 @@ module RSA
               headers: proxy_headers
             })
 
-            raise RsoNotAuthorizedError if response.code == 302
             raise RsoServerError, response.body if response.code.between?(500, 599)
+            raise RsoServerError, response.body if response.body.include?('siteError.htm')
+
+            response
+          end
+
+          def post(path, body)
+            url = "#{ ROOT_URL }/#{ path }"
+            self.response = Typhoeus.post(url, {
+              headers: proxy_headers,
+              body: body
+            })
+
+            raise RsoServerError, response.body if response.code.between?(500, 599)
+            raise RsoServerError, response.body if response.body.include?('siteError.htm')
 
             self.response
           end
+        end
 
-          def post(path)
-            self.response = Typhoeus.post("#{ ROOT_URL }/#{ path }", {
-              headers: proxy_headers,
-              body: proxy_request.params
-            })
+        class BaseAuthorized < Base
+          def get(*)
+            super
 
-            raise RsoNotAuthorizedError if response.code == 302
-            raise RsoServerError, response.body if response.code.between?(500, 599)
+            raise RsoNotAuthorizedError if response.code == 302 && response.headers['Location'].include?('RSOLanding')
 
-            self.response
+            response
+          end
+
+          def post(*)
+            super
+
+            raise RsoNotAuthorizedError if response.code == 302 && response.headers['Location'].include?('RSOLanding')
+
+            response
           end
         end
       end
