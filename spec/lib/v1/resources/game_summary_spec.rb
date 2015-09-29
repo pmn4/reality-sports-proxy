@@ -10,8 +10,9 @@ describe Resources::GameSummary do
   let(:app) { GameSummaryApp }
 
   context '#read' do
-    let(:week) { 2 } # as defined in the data file
-    let(:team_id) { 7 } # as defined in the data file
+    let(:league_id) { 'x' }
+    let(:week) { 2.to_s } # as defined in the data file
+    let(:team_id) { 7.to_s } # as defined in the data file
     let(:response) {
       Typhoeus::Response.new({
         code: 200,
@@ -22,12 +23,15 @@ describe Resources::GameSummary do
 
     before do
       Typhoeus.expects(:get).never
-      Typhoeus.expects(:get).with do |url|
-        url.include? "#{ Requests::GameSummary::RSO_PATH }?weekNum=#{ week }"
-      end
-      .returns(response)
+      Typhoeus.expects(:get)
+        .with do |url, options|
+          url.include?(Requests::GameSummary::RSO_PATH) &&
+            options[:params][:weekNum] == week &&
+            options[:params][:homeTeamID] == team_id
+        end
+        .returns(response)
 
-      get "/league_scoreboard/#{ week }/game_summary/#{ team_id }"
+      get "/leagues/#{ league_id }/scoreboards/#{ week }/game_summaries/#{ team_id }"
 
       hash = JSON.parse(last_response.body)
       @home_team = hash['homeTeam']

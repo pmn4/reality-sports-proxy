@@ -12,14 +12,19 @@ module RSA
           RSO_PATH = 'Scoreboard.aspx'.freeze
 
           def fetch!(week, home_team_id = nil)
-            get("#{ RSO_PATH }?weekNum=#{ week }&homeTeamID=#{ home_team_id }")
+            get(RSO_PATH, {
+              weekNum: week,
+              homeTeamID: home_team_id
+            })
 
             self
           end
 
           def as_model
-            Models::GameSummary.from_node \
-              Nokogiri::HTML(response.body).css('#live-score')
+            with_timing do
+              Models::GameSummary.from_node \
+                Nokogiri::HTML(response.body).css('#live-score')
+            end
           end
         end
       end

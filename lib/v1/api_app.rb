@@ -5,7 +5,8 @@ require_relative 'models/base'
 require_relative 'requests/base'
 require_relative 'resources/auth_token'
 require_relative 'resources/game_summary'
-require_relative 'resources/league_scoreboard'
+require_relative 'resources/league'
+require_relative 'resources/scoreboard'
 require_relative 'routes/cors_controller'
 require_relative 'routes/log_controller'
 
@@ -34,7 +35,8 @@ module RSA
         end
 
         Resources::AuthToken.register!(self)
-        Resources::LeagueScoreboard.register!(self)
+        Resources::League.register!(self)
+        Resources::Scoreboard.register!(self)
         Resources::GameSummary.register!(self)
         Routes::CorsController.register!(self)
         Routes::LogController.register!(self)

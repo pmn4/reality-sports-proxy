@@ -6,9 +6,9 @@ module RSA
     module V1
       module Resources
         class GameSummary < Controller
-          route :get, '/league_scoreboard/:week/game_summary/:home_team_id', :read
+          route :get, '/leagues/:league_id/scoreboards/:week/game_summaries/:home_team_id?', :read
 
-          def read(week, home_team_id = nil)
+          def read(_league_id, week, home_team_id = nil)
             Requests::GameSummary.new(request)
               .fetch!(week, home_team_id)
               .as_model

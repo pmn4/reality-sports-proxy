@@ -28,6 +28,8 @@ module RSA
             _hash
           end
 
+          alias_method :as_rso_json, :as_json # override me!
+
           def to_json(*args)
             as_json.to_json(*args)
           end

@@ -1,16 +1,16 @@
 require 'helpers/spec_helper'
 require 'data/Scoreboard.aspx'
 
-require __FILE__.gsub('/spec/lib/', '/lib/').gsub(/_spec\.rb$/, '.rb')
+require __FILE__.sub('/spec/lib/', '/lib/').sub(/_spec\.rb$/, '.rb')
 
 Resources ||= RSA::API::V1::Resources
 Requests ||= RSA::API::V1::Requests
 
-describe Resources::LeagueScoreboard do
-  let(:app) { LeagueScoreboardApp }
+describe Resources::Scoreboard do
+  let(:app) { ScoreboardApp }
 
   context '#read' do
-    let(:week) { 2 } # as defined in the data file
+    let(:week) { 2.to_s } # as defined in the data file
     let(:response) {
       Typhoeus::Response.new({
         code: 200,
@@ -20,12 +20,14 @@ describe Resources::LeagueScoreboard do
     }
 
     before do
-      Typhoeus.expects(:get).with do |url|
-        url.include? "#{ Requests::LeagueScoreboard::RSO_PATH }?weekNum=#{ week }"
-      end
-      .returns(response)
+      Typhoeus.expects(:get)
+        .with do |url, options|
+          url.include?(Requests::Scoreboard::RSO_PATH) &&
+            options[:params][:weekNum] == week
+        end
+        .returns(response)
 
-      get "/league_scoreboard/#{ week }"
+      get "/leagues/x/scoreboards/#{ week }"
     end
 
     it 'extracts the week' do
@@ -39,7 +41,7 @@ describe Resources::LeagueScoreboard do
     end
   end
 
-  class LeagueScoreboardApp < Sinatra::Base
-    Resources::LeagueScoreboard.register! self
+  class ScoreboardApp < Sinatra::Base
+    Resources::Scoreboard.register! self
   end
 end

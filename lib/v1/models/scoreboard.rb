@@ -5,7 +5,7 @@ module RSA
   module API
     module V1
       module Models
-        class LeagueScoreboard < Base
+        class Scoreboard < Base
           field :week
           field :box_scores, 'boxScores' # [BoxScore]
 
