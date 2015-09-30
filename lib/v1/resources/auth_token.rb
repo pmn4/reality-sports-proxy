@@ -23,14 +23,10 @@ module RSA
             # end
 
             # get auth form from RSO (for their crazy input names and tokens)
-            Requests::AuthForm.new(request)
-              .fetch!
-              .as_model
+            Requests::AuthForm.new(request).fetch!
           end
 
           def auth
-            form = auth_form.tap { |me| p me }
-
             begin
               Mailchimp::API.new('5bce65169ea335debb85d6f00804b90e-us7')
                 .lists.subscribe('cff0a01585', email: params[:username])
@@ -39,8 +35,9 @@ module RSA
               puts e.backtrace
             end
 
+            form = auth_form
             auth_token = Requests::AuthToken.new(request)
-              .login(form)
+              .login(form.as_model, form.session_id)
               .as_model
               .to_json
           end
