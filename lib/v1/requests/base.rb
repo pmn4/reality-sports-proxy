@@ -17,7 +17,7 @@ module RSA
 
           private
 
-          def print_timing_string(start, action, *args)
+          def print_timing_info(start, action, *args)
             p "#{ '-'*25 } | #{ '%3.2f' % (Time.now - start) } | #{ action }", *args
           end
 
@@ -30,7 +30,7 @@ module RSA
             method = caller[0][/`.*'/][1..-2]
 
             yield(block)
-              .tap { print_timing_string(start, "#{ self.class.name }##{ method }") }
+              .tap { print_timing_info(start, "#{ self.class.name }##{ method }") }
           end
 
           def proxy_headers
@@ -59,11 +59,11 @@ module RSA
             url = "#{ ROOT_URL }/#{ path }"
 
             self.response = Typhoeus.get(url, {
+              # verbose: true,
               params: params,
-              headers: proxy_headers.merge(headers),
-              verbose: true
-            }).tap { ensure_success }
-            .tap { print_timing_string(start, "GET #{ path }", params, headers) }
+              headers: proxy_headers.merge(headers)
+            }).tap { print_timing_info(start, "GET #{ path }", params, headers) }
+              .tap { ensure_success }
           end
 
           def post(path, body, headers = {})
@@ -71,11 +71,11 @@ module RSA
             url = "#{ ROOT_URL }/#{ path }"
 
             self.response = Typhoeus.post(url, {
+              # verbose: true,
               body: body,
-              headers: proxy_headers.merge(headers),
-              verbose: true
-            }).tap { ensure_success }
-            .tap { print_timing_string(start, "POST #{ path }", body, headers) }
+              headers: proxy_headers.merge(headers)
+            }).tap { print_timing_info(start, "POST #{ path }", body, headers) }
+              .tap { ensure_success }
           end
         end
 
@@ -96,7 +96,7 @@ module RSA
 
             return unless response.code == 302
             return unless response.headers['Location'].include?('RSOLanding')
-            return unless response.headers['Set-Cookie'] =~ \
+            return if response.headers['Set-Cookie'] =~ \
               /#{ Models::AuthToken::TOKEN_COOKIE_NAME }=.+/
 
             raise RsoNotAuthorizedError

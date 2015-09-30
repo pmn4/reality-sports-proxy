@@ -1,0 +1,3 @@
+- mongo for storing emails
+- tests
+- projections

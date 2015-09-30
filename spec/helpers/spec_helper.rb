@@ -15,6 +15,8 @@ require 'securerandom'
 
 require 'rspec'
 require 'typhoeus'
+
+require_relative '../../lib/v1/requests/base'
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.mock_with :rspec
@@ -27,4 +29,8 @@ RSpec.configure do |config|
   Typhoeus::Request.expects(:post).never
   Typhoeus::Request.expects(:delete).never
   Typhoeus::Hydra.expects(:new).never
+
+  config.before do
+    RSA::API::V1::Requests::Base.any_instance.stubs(:print_timing_info) # ignore
+  end
 end

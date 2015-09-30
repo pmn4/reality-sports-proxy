@@ -8,6 +8,7 @@ gem 'unicorn'
 
 ## DB
 gem 'activemodel', '~> 3.2.0'
+gem 'mailchimp-api', require: 'mailchimp'
 
 gem 'typhoeus'
 gem 'nokogiri'
