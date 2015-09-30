@@ -31,6 +31,8 @@ module RSA
           private
 
           def extract_session_id
+            return if response.nil? || response.headers.nil?
+
             cookie_headers = [response.headers['Set-Cookie']].flatten
 
             raise ModelError if cookie_headers.nil?
