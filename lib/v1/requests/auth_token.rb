@@ -19,8 +19,6 @@ module RSA
 
             post(RSO_PATH, auth_form.as_json)
 
-            p '~'*50, response
-
             self
           end
 
