@@ -8,12 +8,12 @@ module RSA
         class AuthForm < Base
           RSO_PATH = 'Registration.aspx'.freeze
 
-          attr_accessor :session_id
+          attr_accessor :session
 
           def fetch!
             get(RSO_PATH)
 
-            extract_session_id
+            extract_session
 
             self
           end
@@ -30,7 +30,7 @@ module RSA
 
           private
 
-          def extract_session_id
+          def extract_session
             return if response.nil? || response.headers.nil?
 
             cookie_headers = [response.headers['Set-Cookie']].flatten
@@ -41,7 +41,7 @@ module RSA
               cookie_headers.map { |c| c.split(';').first.split('=', 2) }
             ]
 
-            self.session_id = cookies[SESSION_COOKIE_NAME]
+            self.session = cookies[Models::Base::SESSION_COOKIE_NAME]
           end
         end
       end

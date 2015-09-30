@@ -71,10 +71,10 @@ module RSA
             url = "#{ ROOT_URL }/#{ path }"
 
             self.response = Typhoeus.post(url, {
-              verbose: true,
+              # verbose: true,
               body: body,
               headers: proxy_headers.merge(headers)
-            }).tap { print_timing_info(start, "POST #{ path }", body, headers) }
+            }).tap { print_timing_info(start, "POST #{ path }", 'body - (hidden for data security)', headers) }
               .tap { ensure_success }
           end
         end

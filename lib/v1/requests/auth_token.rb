@@ -9,7 +9,7 @@ module RSA
         class AuthToken < BaseAuthorized
           RSO_PATH = 'Registration.aspx'.freeze
 
-          def login(auth_form, session_id)
+          def login(auth_form, session)
             proxy_request.body.rewind
             body = JSON.parse(proxy_request.body.read)
 
@@ -18,7 +18,7 @@ module RSA
             auth_form.action = 'SIGN IN'
 
             post(RSO_PATH, auth_form.as_json, {
-              Models::AuthToken::SESSION_COOKIE_NAME => session_id
+              'Cookie' => "#{ Models::AuthToken::SESSION_COOKIE_NAME }=#{ session }"
             })
 
             self

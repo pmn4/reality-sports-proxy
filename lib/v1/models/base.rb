@@ -20,6 +20,8 @@ module RSA
         class Base
           extend ClassMethods
 
+          SESSION_COOKIE_NAME = 'BGSLMSession'.freeze
+
           def initialize(hash = {})
             self._hash = hash || {}
           end

@@ -9,7 +9,6 @@ module RSA
           field :session
 
           TOKEN_COOKIE_NAME = 'BGSLMMembership'.freeze
-          SESSION_COOKIE_NAME = 'BGSLMSession'.freeze
 
           class << self
             def from_response(response)
@@ -23,7 +22,7 @@ module RSA
 
               new.tap do |instance|
                 instance.token = cookies[TOKEN_COOKIE_NAME]
-                instance.session = cookies[SESSION_COOKIE_NAME]
+                instance.session = cookies[Base::SESSION_COOKIE_NAME]
               end
             end
           end

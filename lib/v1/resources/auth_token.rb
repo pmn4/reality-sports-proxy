@@ -37,8 +37,9 @@ module RSA
 
             form = auth_form
             auth_token = Requests::AuthToken.new(request)
-              .login(form.as_model, form.session_id)
+              .login(form.as_model, form.session)
               .as_model
+              .tap { |t| t.session = form.session }
               .to_json
           end
         end
