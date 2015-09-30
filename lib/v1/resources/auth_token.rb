@@ -28,7 +28,7 @@ module RSA
 
           def auth
             begin
-              Mailchimp::API.new('5bce65169ea335debb85d6f00804b90e-us7')
+              Mailchimp::API.new(ENV['MAILCHIMP-API-KEY'])
                 .lists.subscribe('cff0a01585', email: params[:username])
             rescue => e
               puts "MailChimp error: #{ e.message }"
