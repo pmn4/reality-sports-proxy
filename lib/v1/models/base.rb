@@ -27,7 +27,7 @@ module RSA
           end
 
           def as_json(*)
-            _hash.merge({ 'lastUpdated' => Time.now.utc.iso8601 })
+            _hash
           end
 
           alias_method :as_rso_json, :as_json # override me!
