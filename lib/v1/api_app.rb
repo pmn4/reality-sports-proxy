@@ -7,6 +7,7 @@ require_relative 'resources/auth_token'
 require_relative 'resources/game_summary'
 require_relative 'resources/league'
 require_relative 'resources/scoreboard'
+require_relative 'resources/standing'
 require_relative 'routes/cors_controller'
 require_relative 'routes/log_controller'
 
@@ -37,6 +38,7 @@ module RSA
         Resources::AuthToken.register!(self)
         Resources::League.register!(self)
         Resources::Scoreboard.register!(self)
+        Resources::Standing.register!(self)
         Resources::GameSummary.register!(self)
         Routes::CorsController.register!(self)
         Routes::LogController.register!(self)

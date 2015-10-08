@@ -7,8 +7,8 @@ module RSA
     module V1
       module Resources
         class League < Controller
-          route :get, '/leagues/?', :list
-          route :put, '/leagues/:league_id?', :set
+          route :get, '/leagues', :list
+          route :put, '/leagues/:league_id', :set
 
           def list
             Requests::League.new(request)

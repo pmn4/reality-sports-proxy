@@ -61,7 +61,8 @@ module RSA
             self.response = Typhoeus.get(url, {
               # verbose: true,
               params: params,
-              headers: proxy_headers.merge(headers)
+              headers: proxy_headers.merge(headers),
+              follow_location: true
             }).tap { print_timing_info(start, "GET #{ path }", params, headers) }
               .tap { ensure_success }
           end

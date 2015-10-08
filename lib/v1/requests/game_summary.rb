@@ -11,11 +11,21 @@ module RSA
         class GameSummary < BaseAuthorized
           RSO_PATH = 'Scoreboard.aspx'.freeze
 
+          # debug
+          # require_relative "../../../spec/data/#{ RSO_PATH }"
+
           def fetch!(week, home_team_id = nil)
             get(RSO_PATH, {
               weekNum: week,
               homeTeamID: home_team_id
             })
+
+            # debug
+            # self.response = Typhoeus::Response.new({
+            #   code: 200,
+            #   return_code: :ok,
+            #   body: SCOREBOARD_DATA
+            # })
 
             self
           end

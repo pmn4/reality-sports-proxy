@@ -11,9 +11,19 @@ module RSA
         class Scoreboard < BaseAuthorized
           RSO_PATH = 'Scoreboard.aspx'.freeze
 
+          # debug
+          # require_relative "../../../spec/data/#{ RSO_PATH }"
+
           def fetch!(week)
             params = { weekNum: week } unless week.nil?
             get(RSO_PATH, params)
+
+            # debug
+            # self.response = Typhoeus::Response.new({
+            #   code: 200,
+            #   return_code: :ok,
+            #   body: SCOREBOARD_DATA
+            # })
 
             self
           end

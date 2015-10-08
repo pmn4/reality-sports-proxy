@@ -11,8 +11,18 @@ module RSA
         class League < BaseAuthorized
           RSO_PATH = 'RSOLanding.aspx'.freeze
 
+          # debug
+          # require_relative "../../../spec/data/#{ RSO_PATH }"
+
           def list
             get(RSO_PATH)
+
+            # debug
+            # self.response = Typhoeus::Response.new({
+            #   code: 200,
+            #   return_code: :ok,
+            #   body: RSO_LANDING_DATA
+            # })
 
             self
           end
@@ -26,8 +36,9 @@ module RSA
               # see ctl00_ctl00_ctl00_cphContent_cphContent_cphContent_grdSearchResults
               # in RSOLanding.aspx
 
-              root_node.css('#primary')
-                .css(%q(*[id*='lnkLeagueName']))
+              root_node.css('#league-search')
+              .css('table tr')
+                .reject { |n| n.first_element_child.matches?('th') }
                 .map do |node|
                   Models::League.from_node(node)
                     .append_global_params(root_node)
@@ -36,18 +47,52 @@ module RSA
           end
         end
 
+        class LeagueStandings < BaseAuthorized
+          RSO_PATH = 'LeagueHomeDeluxe.aspx'.freeze
+
+          # debug
+          # require_relative "../../../spec/data/#{ RSO_PATH }"
+
+          def list(league_id)
+            get(RSO_PATH, leagueId: league_id)
+
+            # debug
+            # self.response = Typhoeus::Response.new({
+            #   code: 200,
+            #   return_code: :ok,
+            #   body: LEAGUE_HOME_DELUXE_DATA
+            # })
+
+            self
+          end
+
+          def as_model
+            with_timing do
+              Nokogiri::HTML(response.body)
+                .css('#StandingsPanel')
+                .css('table tr')
+                .reject { |n| n.first_element_child.matches?('th') }
+                .map { |n| Models::LeagueStanding.from_node(n) }
+            end
+          end
+
+        end
+
         class SetLeague < BaseAuthorized
           RSO_PATH = 'RSOLanding.aspx'.freeze
 
           def set(league)
             post(RSO_PATH, league.as_rso_json)
 
+            return self unless response.headers.key?('Location')
+
             # response from above is a 302: /LeagueHomeDeluxe.aspx
             get(response.headers['Location'][1..-1]) # remove leading /
 
-            # response from above is a 302: /LeagueHomeDeluxe.aspx?refid=...
-            # it seems RSO has a session table
-            get(response.headers['Location'][1..-1]) # remove leading /
+            # Typhoeus should follow redirects...
+            # # response from above is a 302: /LeagueHomeDeluxe.aspx?refid=...
+            # # it seems RSO has a session table
+            # get(response.headers['Location'][1..-1]) # remove leading /
 
             self
           end

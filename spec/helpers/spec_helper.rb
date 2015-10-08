@@ -31,6 +31,7 @@ RSpec.configure do |config|
   Typhoeus::Hydra.expects(:new).never
 
   config.before do
-    RSA::API::V1::Requests::Base.any_instance.stubs(:print_timing_info) # ignore
+    allow_any_instance_of(RSA::API::V1::Requests::Base)
+      .to receive(:print_timing_info) # ignore
   end
 end
