@@ -61,6 +61,12 @@ module RSA
           [502, e.message || 'Reality Sports Online server error']
         end
 
+        error Requests::RsoSessionError do
+          e = env['sinatra.error']
+          content_type 'text/plain'
+          [502, e.message || 'Reality Sports Online session error']
+        end
+
         error do
           e = env['sinatra.error']
           puts e.message

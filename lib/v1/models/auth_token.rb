@@ -9,6 +9,8 @@ module RSA
           field :session
 
           TOKEN_COOKIE_NAME = 'BGSLMMembership'.freeze
+          TOKEN_RACK_HEADER_NAME = 'HTTP_X_RSO_AUTH_TOKEN'.freeze
+          TOKEN_HEADER_NAME = 'X-RSO-Auth-Token'.freeze
 
           class << self
             def from_response(response)

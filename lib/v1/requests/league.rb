@@ -84,22 +84,17 @@ module RSA
           def set(league)
             post(RSO_PATH, league.as_rso_json)
 
-            return self unless response.headers.key?('Location')
+            raise RsoSessionError unless response.headers.key?('Location')
 
             # response from above is a 302: /LeagueHomeDeluxe.aspx
             get(response.headers['Location'][1..-1]) # remove leading /
 
-            # Typhoeus should follow redirects...
-            # # response from above is a 302: /LeagueHomeDeluxe.aspx?refid=...
-            # # it seems RSO has a session table
-            # get(response.headers['Location'][1..-1]) # remove leading /
+            # response from above is a 302: /LeagueHomeDeluxe.aspx?refid=...
+            # it seems RSO has a session table
+            get(response.headers['Location'][1..-1]) # remove leading /
 
             self
           end
-
-          # def as_model
-          #   Models::AuthToken.from_response(response)
-          # end
         end
       end
     end

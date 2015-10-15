@@ -1,9 +1,9 @@
 require 'mailchimp'
 
 require_relative '../controller'
-require_relative '../models/auth_form'
 require_relative '../models/auth_token'
 require_relative '../requests/auth_form'
+# require_relative '../requests/auth_session'
 require_relative '../requests/auth_token'
 
 module RSA
@@ -11,6 +11,7 @@ module RSA
     module V1
       module Resources
         class AuthToken < Controller
+          route :get, '/tokens', :session
           route :post, '/tokens', :auth
 
           def auth_form
@@ -26,6 +27,18 @@ module RSA
             Requests::AuthForm.new(request).fetch!
           end
 
+          # assuming you already have an auth token, refresh the session
+          def session
+            refreshed = Requests::AuthSession.new(request)
+              .fetch
+              .as_model
+
+            response.headers['Access-Control-Expose-Headers'] = Models::AuthToken::SESSION_HEADER_NAME
+            response.headers[Models::AuthToken::SESSION_HEADER_NAME] = refreshed.session
+
+            204
+          end
+
           def auth
             begin
               Mailchimp::API.new(ENV['MAILCHIMP-API-KEY'])
@@ -39,8 +52,15 @@ module RSA
             auth_token = Requests::AuthToken.new(request)
               .login(form.as_model, form.session)
               .as_model
-              .tap { |t| t.session = form.session }
-              .to_json
+
+            response.headers['Access-Control-Expose-Headers'] = [
+              Models::AuthToken::SESSION_HEADER_NAME,
+              Models::AuthToken::TOKEN_HEADER_NAME
+            ].join(', ')
+            response.headers[Models::AuthToken::SESSION_HEADER_NAME] = form.session
+            response.headers[Models::AuthToken::TOKEN_HEADER_NAME] = auth_token.token
+
+            204
           end
         end
       end

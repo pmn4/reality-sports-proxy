@@ -7,6 +7,7 @@ module RSA
       module Requests
         class RsoNotAuthorizedError < StandardError; end
         class RsoServerError < StandardError; end
+        class RsoSessionError < StandardError; end
 
         class Base
           ROOT_URL = 'http://www.realitysportsonline.com'
@@ -47,9 +48,7 @@ module RSA
             {}
           end
 
-          def ensure_success
-            return if response.nil?
-
+          def ensure_success(response)
             raise RsoServerError, response.body if response.code.between?(500, 599)
             raise RsoServerError, response.body if response.body.include?('siteError.htm')
           end
@@ -61,10 +60,10 @@ module RSA
             self.response = Typhoeus.get(url, {
               # verbose: true,
               params: params,
-              headers: proxy_headers.merge(headers),
-              follow_location: true
+              headers: proxy_headers.merge(headers)
             }).tap { print_timing_info(start, "GET #{ path }", params, headers) }
-              .tap { ensure_success }
+              .tap { |r| ensure_success(r) }
+              # .tap { |me| p me.headers }
           end
 
           def post(path, body, headers = {})
@@ -76,7 +75,8 @@ module RSA
               body: body,
               headers: proxy_headers.merge(headers)
             }).tap { print_timing_info(start, "POST #{ path }", 'body - (hidden for data security)', headers) }
-              .tap { ensure_success }
+              .tap { |r| ensure_success(r) }
+            #   .tap { |me| p me.headers }
           end
         end
 
@@ -84,16 +84,14 @@ module RSA
           def rso_headers
             {
               'Cookie' => [
-                "#{ Models::AuthToken::TOKEN_COOKIE_NAME }=#{ proxy_request.env['HTTP_X_RSO_AUTH_TOKEN'] }",
-                "#{ Models::AuthToken::SESSION_COOKIE_NAME }=#{ proxy_request.env['HTTP_X_RSO_SESSION'] }"
+                "#{ Models::AuthToken::TOKEN_COOKIE_NAME }=#{ proxy_request.env[Models::AuthToken::TOKEN_RACK_HEADER_NAME] }",
+                "#{ Models::AuthToken::SESSION_COOKIE_NAME }=#{ proxy_request.env[Models::AuthToken::SESSION_RACK_HEADER_NAME] }"
               ].join('; ')
             }
           end
 
-          def ensure_success
+          def ensure_success(response)
             super
-
-            return if response.nil?
 
             return unless response.code == 302
             return unless response.headers['Location'].include?('RSOLanding')
@@ -105,12 +103,18 @@ module RSA
 
           def get(path, params = {}, headers = {})
             super(path, params, rso_headers.merge(headers))
-              .tap { ensure_success }
           end
 
           def post(path, body, headers = {})
             super(path, body, rso_headers.merge(headers))
-              .tap { ensure_success }
+          end
+        end
+
+        class BaseIdentified < BaseAuthorized
+          def rso_headers
+            {
+              'Cookie' => "#{ Models::AuthToken::TOKEN_COOKIE_NAME }=#{ proxy_request.env['HTTP_X_RSO_AUTH_TOKEN'] }"
+            }
           end
         end
       end

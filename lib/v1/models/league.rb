@@ -57,7 +57,8 @@ module RSA
         class League < Base
           attr_accessor \
             :ms_unnecessary_crap__EVENTTARGET,
-            :ms_unnecessary_crap__VIEWSTATE
+            :ms_unnecessary_crap__VIEWSTATE,
+            :ms_unnecessary_crap__VIEWSTATEGENERATOR
 
           field :league_id, 'leagueId'
           field :name
@@ -67,13 +68,19 @@ module RSA
             {
               __EVENTTARGET: ms_unnecessary_crap__EVENTTARGET,
               __VIEWSTATE: ms_unnecessary_crap__VIEWSTATE,
-              __EVENTARGUMENT: league_id
+              __EVENTARGUMENT: league_id,
+              __VIEWSTATEGENERATOR: ms_unnecessary_crap__VIEWSTATEGENERATOR,
+              __VIEWSTATEENCRYPTED: ''
             }
           end
 
           def append_global_params(node)
             self.ms_unnecessary_crap__VIEWSTATE = node
               .css(%q(#__VIEWSTATE))
+              .attr('value').value
+
+            self.ms_unnecessary_crap__VIEWSTATEGENERATOR = node
+              .css(%q(#__VIEWSTATEGENERATOR))
               .attr('value').value
 
             self

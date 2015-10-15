@@ -6,6 +6,31 @@ module RSA
   module API
     module V1
       module Requests
+        class AuthSession < BaseIdentified
+          RSO_PATH = 'Registration.aspx'.freeze
+
+          def fetch
+            get(RSO_PATH)
+
+            self
+          end
+
+          def as_model
+            with_timing do
+              Models::AuthToken.from_response(response)
+            end
+          end
+
+          protected
+
+          def ensure_success(response)
+            return if response.headers['Set-Cookie']
+              .include? Models::AuthToken::SESSION_COOKIE_NAME
+
+            raise RsoServerError, response.body
+          end
+        end
+
         class AuthToken < BaseAuthorized
           RSO_PATH = 'Registration.aspx'.freeze
 

@@ -21,6 +21,8 @@ module RSA
           extend ClassMethods
 
           SESSION_COOKIE_NAME = 'BGSLMSession'.freeze
+          SESSION_RACK_HEADER_NAME = 'HTTP_X_RSO_SESSION'.freeze
+          SESSION_HEADER_NAME = 'X-RSO-Session'.freeze
 
           def initialize(hash = {})
             self._hash = hash || {}
