@@ -56,6 +56,11 @@ module RSA
           def list(league_id)
             get(RSO_PATH, leagueId: league_id)
 
+            raise RsoSessionError unless response.headers.key?('Location')
+
+            # response from above is a 302: /LeagueHomeDeluxe.aspx?refid=359-BFD95C05F67C
+            get(response.headers['Location'][1..-1]) # remove leading /
+
             # debug
             # self.response = Typhoeus::Response.new({
             #   code: 200,
