@@ -1,11 +1,11 @@
-require_relative 'base'
+require_relative '../../base_model'
 require_relative 'game_status'
 
 module RSA
   module API
     module V1
       module Models
-        class GamePlayerScore < Base
+        class GamePlayerScore < BaseModel
           field :name
           field :team
           field :position

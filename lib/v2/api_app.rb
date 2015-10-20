@@ -1,18 +1,19 @@
 require 'active_support/inflector'
 
-require_relative '../errors'
 require_relative '../base_app'
+require_relative '../errors'
 require_relative '../routes/cors_controller'
 require_relative '../routes/log_controller'
+# require_relative 'models/base'
 require_relative 'resources/auth_token'
 require_relative 'resources/game_summary'
 require_relative 'resources/league'
 require_relative 'resources/scoreboard'
-require_relative 'resources/standing'
+# require_relative 'resources/standing'
 
 module RSA
   module API
-    module V1
+    module V2
       class ApiApp < BaseApp
         configure do
           # Don't log them. We'll do that ourself
@@ -37,12 +38,13 @@ module RSA
         Resources::AuthToken.register!(self)
         Resources::League.register!(self)
         Resources::Scoreboard.register!(self)
-        Resources::Standing.register!(self)
+        # Resources::Standing.register!(self)
         Resources::GameSummary.register!(self)
         Routes::CorsController.register!(self)
         Routes::LogController.register!(self)
 
         error ModelError do
+        # error V1::ModelError, V2::ModelError do # but really, roll up to a non-versioned
           e = env['sinatra.error']
           content_type 'text/plain'
           [400, e.message || 'Could not parse reponse']

@@ -1,10 +1,10 @@
-require_relative 'base'
+require_relative '../../base_model'
 
 module RSA
   module API
     module V1
       module Models
-        class GameStatus < Base
+        class GameStatus < BaseModel
           field :opponent
           field :score
           field :time_remaining, 'timeRemaining'

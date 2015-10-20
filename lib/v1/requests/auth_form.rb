@@ -1,5 +1,5 @@
-require_relative 'base'
 require_relative '../models/auth_form'
+require_relative 'base'
 
 module RSA
   module API
@@ -41,7 +41,7 @@ module RSA
               cookie_headers.map { |c| c.split(';').first.split('=', 2) }
             ]
 
-            self.session = cookies[Models::Base::SESSION_COOKIE_NAME]
+            self.session = cookies[BaseModel::SESSION_COOKIE_NAME]
           end
         end
       end

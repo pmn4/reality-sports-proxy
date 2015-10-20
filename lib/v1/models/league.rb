@@ -1,60 +1,13 @@
-require_relative 'base'
+require_relative '../../base_model'
 require_relative 'box_score'
+require_relative 'league_standing'
+require_relative 'team'
 
 module RSA
   module API
     module V1
       module Models
-        class Team < Base
-          field :team_id, 'teamId'
-          field :name
-
-          class << self
-            def from_node(node)
-              new.tap do |instance|
-                instance.team_id = node
-                  .css(%q(*[id*='hlnkTeam']))
-                  .attr('href').value
-                  .match(%r(viewingTeam=(?<team_id>\d)))[:team_id]
-
-                instance.name = node.text.strip
-              end
-            end
-          end
-        end
-
-        class LeagueStanding < Base
-          field :team
-          field :wins
-          field :losses
-          field :ties
-          field :points
-          field :waiver_priority, 'waiverPriority'
-
-          class << self
-            def from_node(node)
-              raise ModelError if node.nil? || node.blank?
-
-              team_node = node.css('td:nth-child(1)')
-              wins_node = node.css('td:nth-child(2)')
-              losses_node = node.css('td:nth-child(3)')
-              ties_node = node.css('td:nth-child(4)')
-              points_node = node.css('td:nth-child(5)')
-              waiver_priority_node = node.css('td:nth-child(6)')
-
-              new.tap do |instance|
-                instance.team = Team.from_node(team_node)
-                instance.wins = wins_node.text.strip
-                instance.losses = losses_node.text.strip
-                instance.ties = ties_node.text.strip
-                instance.points = points_node.text.strip
-                instance.waiver_priority = waiver_priority_node.text.strip
-              end
-            end
-          end
-        end
-
-        class League < Base
+        class League < BaseModel
           attr_accessor \
             :ms_unnecessary_crap__EVENTTARGET,
             :ms_unnecessary_crap__VIEWSTATE,

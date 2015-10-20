@@ -1,14 +1,12 @@
 require 'nokogiri'
 require 'typhoeus'
 
+require_relative '../../errors'
+
 module RSA
   module API
     module V1
       module Requests
-        class RsoNotAuthorizedError < StandardError; end
-        class RsoServerError < StandardError; end
-        class RsoSessionError < StandardError; end
-
         class Base
           ROOT_URL = 'http://www.realitysportsonline.com'
 

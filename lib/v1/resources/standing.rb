@@ -1,4 +1,4 @@
-require_relative '../controller'
+require_relative '../../controller'
 require_relative '../requests/league'
 
 module RSA

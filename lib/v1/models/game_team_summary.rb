@@ -1,10 +1,10 @@
-require_relative 'base'
+require_relative '../../base_model'
 
 module RSA
   module API
     module V1
       module Models
-        class GameTeamSummary < Base
+        class GameTeamSummary < BaseModel
           field :in_play, 'inPlay'
           field :yet_to_play, 'yetToPlay'
           field :player_time_remaining, 'playerTimeRemaining'

@@ -1,10 +1,10 @@
-require_relative 'base'
+require_relative '../../base_model'
 
 module RSA
   module API
     module V1
       module Models
-        class AuthToken < Base
+        class AuthToken < BaseModel
           field :token
           field :session
 
@@ -24,7 +24,7 @@ module RSA
 
               new.tap do |instance|
                 instance.token = cookies[TOKEN_COOKIE_NAME]
-                instance.session = cookies[Base::SESSION_COOKIE_NAME]
+                instance.session = cookies[BaseModel::SESSION_COOKIE_NAME]
               end
             end
           end

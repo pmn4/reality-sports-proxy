@@ -16,8 +16,8 @@ end
 
 desc 'Run IRB console with app environment'
 task :console do
-    puts 'Loading development console...'
-    system('bundle exec irb -r ./boot.rb') # require everything...
+  puts 'Loading development console...'
+  system('bundle exec irb -r ./console.rb')
 end
 
 desc 'Show help menu'

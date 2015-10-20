@@ -1,6 +1,6 @@
 require 'mailchimp'
 
-require_relative '../controller'
+require_relative '../../controller'
 require_relative '../models/auth_token'
 require_relative '../requests/auth_form'
 # require_relative '../requests/auth_session'

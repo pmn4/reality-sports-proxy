@@ -1,4 +1,4 @@
-require_relative 'base'
+require_relative '../../base_model'
 
 module RSA
   module API
@@ -6,7 +6,7 @@ module RSA
       module Models
         # this class is simply used to create a form for which username
         # and password may be set.  It's not as easy as POST'ing u/p
-        class AuthForm < Base
+        class AuthForm < BaseModel
           attr_accessor \
             :ms_unnecessary_crap__VIEWSTATE,
             :ms_unnecessary_crap__EVENTVALIDATION

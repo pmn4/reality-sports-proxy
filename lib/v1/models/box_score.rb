@@ -1,11 +1,11 @@
-require_relative 'base'
+require_relative '../../base_model'
 require_relative 'game_team_detail'
 
 module RSA
   module API
     module V1
       module Models
-        class BoxScore < Base
+        class BoxScore < BaseModel
           field :game_id, 'gameId'
           field :week
           field :away_team, 'awayTeam' # GameTeamDetail
