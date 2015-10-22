@@ -24,7 +24,7 @@ module RSA
           url = api_url(controller, method)
 
           Typhoeus.get(url, {
-            verbose: true,
+            # verbose: true,
             params: params,
             headers: auth_token_header.merge(headers)
           }).tap do |response|
@@ -38,12 +38,12 @@ module RSA
           url = api_url(controller, method)
 
           Typhoeus.post(url, {
-            verbose: true,
+            # verbose: true,
             body: body,
             headers: auth_token_header.merge(headers)
           }).tap do |response|
-            # print_timing_info(start, "POST #{ url }", 'body - (hidden for data security)', headers)
-            print_timing_info(start, "POST #{ url }", body)
+            print_timing_info(start, "POST #{ url }", 'body - (hidden for data security)', headers)
+            # print_timing_info(start, "POST #{ url }", body)
             ensure_success(response)
           end
         end
