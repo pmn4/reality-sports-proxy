@@ -31,6 +31,7 @@ module RSA
             print_timing_info(start, "GET #{ url }", params)
             ensure_success(response)
           end
+          # end.tap { |r| p r.body }
         end
 
         def post(controller, method, body = {}, headers = {})
@@ -46,6 +47,7 @@ module RSA
             # print_timing_info(start, "POST #{ url }", body)
             ensure_success(response)
           end
+          # end.tap { |r| p r.body }
         end
 
         def auth_token_header

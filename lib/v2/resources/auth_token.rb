@@ -15,14 +15,18 @@ module RSA
               Mailchimp::API.new(ENV['MAILCHIMP-API-KEY'])
                 .lists.subscribe('cff0a01585', email: params[:username])
             rescue => e
-              puts "MailChimp error: #{ e.message }"
-              puts e.backtrace
+              if !e.message.include?('already subscribed')
+                puts "MailChimp error: #{ e.message }"
+                puts e.backtrace
+              end
             end
 
             self.auth_token = Models::AuthToken
               .create(form[:username], form[:password])
 
             204
+          rescue => e
+            [404, e.message]
           end
         end
       end

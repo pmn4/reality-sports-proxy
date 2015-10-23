@@ -44,10 +44,6 @@ module RSA
               Mailchimp::API.new(ENV['MAILCHIMP-API-KEY'])
                 .lists.subscribe('cff0a01585', email: params[:username])
             rescue => e
-              puts "MailChimp error: #{ e.class.name }"
-
-              # break if e.message.include?('already subscribed')
-
               puts "MailChimp error: #{ e.message }"
               puts e.backtrace
             end

@@ -1,4 +1,5 @@
 require 'delegate'
+require 'active_support/core_ext/hash/indifferent_access'
 
 require_relative 'v2/models/auth_token'
 
@@ -27,8 +28,8 @@ class Controller < SimpleDelegator # delegates to app, therefore, `Controller.re
 
   def form
     @_form ||= begin
-      proxy_request.body.rewind
-      JSON.parse(proxy_request.body.read).with_indifferent_access
+      request.body.rewind
+      JSON.parse(request.body.read).with_indifferent_access
     rescue => e
       p 'Failed to parse body'
       p e.message
@@ -52,6 +53,8 @@ class ApiController < Controller
   end
 
   def auth_token=(auth_token)
+    return if auth_token.nil? || auth_token.token.nil?
+
     response.headers['Access-Control-Expose-Headers'] = TOKEN_HEADER_NAME
     response.headers[TOKEN_HEADER_NAME] = auth_token.token
   end

@@ -25,6 +25,8 @@ module RSA
                 cookie_headers.map { |c| c.split(';').first.split('=', 2) }
               ]
 
+              raise response.body if cookies[TOKEN_COOKIE_NAME].nil?
+
               new.tap { |i| i.token = cookies[TOKEN_COOKIE_NAME] }
             end
           end
