@@ -25,10 +25,6 @@ module RSA
                   team.team_id = hash['teamID']
                   team.name = hash['teamName']
                 end
-
-                # deprecate
-                instance.team_id = instance.team.team_id
-                instance.team_name = instance.team.name
               end
             end
           end
