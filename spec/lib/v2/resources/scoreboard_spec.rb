@@ -1,5 +1,5 @@
 require 'helpers/spec_helper'
-DATA_PATH = File.expand_path('../../../data', File.dirname(__FILE__))
+data_path = File.expand_path('../../../data', File.dirname(__FILE__))
 
 require __FILE__.sub('/spec/lib/', '/lib/').sub(/_spec\.rb$/, '.rb')
 
@@ -13,7 +13,7 @@ describe RSA::API::V2::Resources::Scoreboard do
       Typhoeus::Response.new({
         code: 200,
         return_code: :ok,
-        body: File.read(File.join(DATA_PATH, 'rso.api.scoreboard.json'))
+        body: File.read(File.join(data_path, 'rso.api.scoreboard.json'))
       })
     }
 
