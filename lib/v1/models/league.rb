@@ -1,20 +1,17 @@
-require_relative '../../base_model'
+require_relative '../../models/league'
 require_relative 'box_score'
 require_relative 'league_standing'
-require_relative 'team'
 
 module RSA
   module API
     module V1
       module Models
-        class League < BaseModel
+        class League < API::Models::League
           attr_accessor \
             :ms_unnecessary_crap__EVENTTARGET,
             :ms_unnecessary_crap__VIEWSTATE,
             :ms_unnecessary_crap__VIEWSTATEGENERATOR
 
-          field :league_id, 'leagueId'
-          field :name
           field :team_name, 'teamName'
 
           def as_rso_json(*)
@@ -58,7 +55,10 @@ module RSA
                 # instance.league_id = how_not_to_do_href[:league_id]
                 instance.league_id = league_id_node.text.strip
                 instance.name = name_node.text.strip
-                instance.team_name = team_name_node.text.strip
+                instance.team = API::Models::Team.new.tap do |team|
+                  team.name = team_name_node.text.strip
+                end
+                instance.team_name = instance.team.name
               end
             end
           end

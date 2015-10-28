@@ -1,13 +1,10 @@
-require_relative '../../base_model'
+require_relative '../../models/team'
 
 module RSA
   module API
     module V1
       module Models
-        class Team < BaseModel
-          field :team_id, 'teamId'
-          field :name
-
+        class Team < API::Models::Team
           class << self
             def from_node(node)
               new.tap do |instance|

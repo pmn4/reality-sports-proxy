@@ -1,18 +1,14 @@
-require_relative '../../base_model'
+require_relative '../../models/game_player_score'
 require_relative 'game_status'
 
 module RSA
   module API
     module V1
       module Models
-        class GamePlayerScore < BaseModel
+        class GamePlayerScore < API::Models::GamePlayerScore
           field :name
           field :team
-          field :position
           field :game_status, 'gameStatus' # GameStatus
-          field :stat_line, 'statLine'
-          field :points
-          field :status # active, bench, injured, etc
 
           def blank?
             (name.nil? || name.empty?) &&
@@ -26,7 +22,6 @@ module RSA
               return new if node.css('td').length.zero? # header row
 
               new.tap do |instance|
-
                 instance.position = node.css('td:nth-child(1)')
                   .text.strip
 

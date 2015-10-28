@@ -1,16 +1,10 @@
-require_relative '../../base_model'
+require_relative '../../models/nfl_game'
 
 module RSA
   module API
     module V2
       module Models
-        class NflGame < BaseModel
-          field :game_status, 'gameStatus'
-          field :team
-          field :team_score, 'teamScore'
-          field :opponent
-          field :opponent_score, 'opponentScore'
-
+        class NflGame < API::Models::NflGame
           class << self
             def from_hash(hash)
               new.tap do |instance|

@@ -1,14 +1,11 @@
-require_relative '../../base_model'
+require_relative '../../models/scoreboard'
 require_relative 'box_score'
 
 module RSA
   module API
     module V1
       module Models
-        class Scoreboard < BaseModel
-          field :week
-          field :box_scores, 'boxScores' # [BoxScore]
-
+        class Scoreboard < API::Models::Scoreboard
           class << self
             def from_node(node)
               raise ModelError if node.nil? || node.length.zero?

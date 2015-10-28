@@ -1,15 +1,10 @@
-require_relative '../../base_model'
+require_relative '../../models/game_status'
 
 module RSA
   module API
     module V1
       module Models
-        class GameStatus < BaseModel
-          field :opponent
-          field :score
-          field :time_remaining, 'timeRemaining'
-          field :date
-
+        class GameStatus < API::Models::GameStatus
           class << self
             def from_node(node)
               raise ModelError if node.nil? || node.length.zero?

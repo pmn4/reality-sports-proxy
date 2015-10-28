@@ -1,17 +1,10 @@
-require_relative '../../base_model'
+require_relative '../../models/game_team_summary'
 
 module RSA
   module API
     module V1
       module Models
-        class GameTeamSummary < BaseModel
-          field :in_play, 'inPlay'
-          field :yet_to_play, 'yetToPlay'
-          field :player_time_remaining, 'playerTimeRemaining'
-          field :projected_points, 'projectedPoints'
-          field :total_points, 'totalPoints'
-          # computed_field :projected_points, 'projectedPoints'
-
+        class GameTeamSummary < API::Models::GameTeamSummary
           class << self
             def from_node(node)
               raise ModelError if node.nil? || node.length.zero?

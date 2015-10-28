@@ -1,10 +1,10 @@
-require_relative '../../v1/models/team'
+require_relative '../../models/team'
 
 module RSA
   module API
     module V2
       module Models
-        class Team < V1::Models::Team
+        class Team < API::Models::Team
           class << self
             def from_hash(hash)
               new.tap do |instance|

@@ -1,6 +1,6 @@
 require 'delegate'
 
-require_relative '../../v1/models/box_score'
+require_relative '../../models/box_score'
 require_relative 'game_team_detail'
 
 module RSA
@@ -26,7 +26,7 @@ module RSA
       end
 
       module Models
-        class BoxScore < V1::Models::BoxScore
+        class BoxScore < API::Models::BoxScore
           class << self
             def from_array(box_scores)
               box_scores.map do |hash|

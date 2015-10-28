@@ -1,17 +1,10 @@
-require_relative '../../base_model'
+require_relative '../../models/league_standing'
 
 module RSA
   module API
     module V1
       module Models
-        class LeagueStanding < BaseModel
-          field :team
-          field :wins
-          field :losses
-          field :ties
-          field :points
-          field :waiver_priority, 'waiverPriority'
-
+        class LeagueStanding < API::Models::LeagueStanding
           class << self
             def from_node(node)
               raise ModelError if node.nil? || node.blank?

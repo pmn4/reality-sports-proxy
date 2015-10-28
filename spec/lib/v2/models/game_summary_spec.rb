@@ -11,26 +11,6 @@ describe Models::GameSummary do
   describe '.from_hash' do
     let(:instance) { described_class.from_array(json_response) }
 
-    it 'extracts home team' do
-      expect(instance.home_team)
-        .to be_a(Models::GameTeamDetail)
-    end
-
-    it 'extracts home team data' do
-      expect(instance.home_team.team.name)
-        .to eq('TLowe12')
-    end
-
-    it 'extracts home team summary' do
-      expect(instance.home_team.summary.total_points)
-        .to eq(165.60)
-    end
-
-    it 'extracts home team player scores' do
-      expect(instance.home_team.player_scores.map(&:points))
-        .to eq([41.29, 27.58, 6.8, 16.9, 19.8, 2.7, 12.0, 11.0, 27.53, 38.65, 2.21, 0.0, 0.0, 0.0, 11.77, 0.0])
-    end
-
     it 'extracts away team' do
       expect(instance.away_team)
         .to be_a(Models::GameTeamDetail)
@@ -38,16 +18,36 @@ describe Models::GameSummary do
 
     it 'extracts away team data' do
       expect(instance.away_team.team.name)
-        .to eq('@pnewell4')
+        .to eq('TLowe12')
     end
 
     it 'extracts away team summary' do
       expect(instance.away_team.summary.total_points)
-        .to eq(191.84)
+        .to eq(165.60)
     end
 
     it 'extracts away team player scores' do
       expect(instance.away_team.player_scores.map(&:points))
+        .to eq([41.29, 27.58, 6.8, 16.9, 19.8, 2.7, 12.0, 11.0, 27.53, 38.65, 2.21, 0.0, 0.0, 0.0, 11.77, 0.0])
+    end
+
+    it 'extracts home team' do
+      expect(instance.home_team)
+        .to be_a(Models::GameTeamDetail)
+    end
+
+    it 'extracts home team data' do
+      expect(instance.home_team.team.name)
+        .to eq('@pnewell4')
+    end
+
+    it 'extracts home team summary' do
+      expect(instance.home_team.summary.total_points)
+        .to eq(191.84)
+    end
+
+    it 'extracts home team player scores' do
+      expect(instance.home_team.player_scores.map(&:points))
         .to eq([54.56, 21.83, 21.11, 13.5, 24.7, 4.2, 5.0, 7.0, 39.94, 31.88, 0.0, 5.38, 6.5, 30.7, 14.6])
     end
   end

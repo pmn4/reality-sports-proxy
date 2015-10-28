@@ -1,14 +1,11 @@
-require_relative '../../base_model'
+require_relative '../../models/game_summary'
 require_relative 'game_team_detail'
 
 module RSA
   module API
     module V1
       module Models
-        class GameSummary < BaseModel
-          field :home_team, 'homeTeam' # GameTeamDetail
-          field :away_team, 'awayTeam' # GameTeamDetail
-
+        class GameSummary < API::Models::GameSummary
           class << self
             def from_node(node)
               raise ModelError if node.nil? || node.length.zero?

@@ -1,4 +1,4 @@
-require_relative '../../base_model'
+require_relative '../../models/game_team_detail'
 require_relative 'game_team_summary'
 require_relative 'game_player_score'
 
@@ -6,12 +6,8 @@ module RSA
   module API
     module V1
       module Models
-        class GameTeamDetail < BaseModel
+        class GameTeamDetail < API::Models::GameTeamDetail
           field :name # deprecate
-          field :team # Team
-          field :image_url, 'imageUrl'
-          field :summary                       # GameTeamSummary
-          field :player_scores, 'playerScores' # [GamePlayerScore]
 
           def extract_player_scores(node)
             self.player_scores ||= []
@@ -34,9 +30,9 @@ module RSA
               raise ModelError if node.nil? || node.length.zero?
 
               new.tap do |instance|
-                instance.team = Team.new({
-                  'name' => node.css('.team-name').text.strip
-                })
+                instance.team = API::Models::Team.new.tap do |team|
+                  team.name = node.css('.team-name').text.strip
+                end
                 instance.name = instance.team.name
 
                 instance.image_url = node
@@ -55,9 +51,9 @@ module RSA
               raise ModelError if node.nil? || node.blank?
 
               new.tap do |instance|
-                instance.team = Team.new({
-                  'name' => node.css('.scoreboxTeam').text.strip
-                })
+                instance.team = API::Models::Team.new.tap do |team|
+                  team.name = node.css('.scoreboxTeam').text.strip
+                end
                 instance.name = instance.team.name
 
                 instance.summary = GameTeamSummary.from_boxscore_node \

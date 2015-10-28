@@ -1,11 +1,11 @@
-require_relative '../../v1/models/auth_token'
+require_relative '../../models/auth_token'
 require_relative '../modules/rso_api_methods'
 
 module RSA
   module API
     module V2
       module Models
-        class AuthToken < V1::Models::AuthToken
+        class AuthToken < API::Models::AuthToken
           extend RsoApiMethods
 
           TOKEN_COOKIE_NAME = 'BGSLMMembership'.freeze

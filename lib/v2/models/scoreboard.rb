@@ -1,6 +1,6 @@
 require 'delegate'
 
-require_relative '../../v1/models/scoreboard'
+require_relative '../../models/scoreboard'
 require_relative '../modules/rso_api_methods'
 require_relative 'box_score'
 
@@ -8,7 +8,7 @@ module RSA
   module API
     module V2
       module Models
-        class Scoreboard < V1::Models::Scoreboard
+        class Scoreboard < API::Models::Scoreboard
           extend RsoApiMethods
 
           class << self

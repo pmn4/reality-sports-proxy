@@ -17,6 +17,7 @@ require 'rspec'
 require 'typhoeus'
 
 require_relative '../../lib/v1/requests/base'
+require_relative '../../lib/v2/modules/rso_api_methods'
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.mock_with :rspec
@@ -32,6 +33,9 @@ RSpec.configure do |config|
 
   config.before do
     allow_any_instance_of(RSA::API::V1::Requests::Base)
+      .to receive(:print_timing_info) # ignore
+
+    allow_any_instance_of(RSA::API::V2::RsoApiMethods)
       .to receive(:print_timing_info) # ignore
   end
 end

@@ -1,16 +1,13 @@
-require_relative '../../base_model'
+require_relative '../../models/auth_token'
 
 module RSA
   module API
     module V1
       module Models
-        class AuthToken < BaseModel
-          field :token
-          field :session
-
-          TOKEN_COOKIE_NAME = 'BGSLMMembership'.freeze
-          TOKEN_RACK_HEADER_NAME = 'HTTP_X_RSO_AUTH_TOKEN'.freeze
-          TOKEN_HEADER_NAME = 'X-RSO-Auth-Token'.freeze
+        class AuthToken < API::Models::AuthToken
+          SESSION_COOKIE_NAME = 'BGSLMSession'.freeze
+          SESSION_RACK_HEADER_NAME = 'HTTP_X_RSO_SESSION'.freeze
+          SESSION_HEADER_NAME = 'X-RSO-Session'.freeze
 
           class << self
             def from_response(response)
@@ -24,7 +21,7 @@ module RSA
 
               new.tap do |instance|
                 instance.token = cookies[TOKEN_COOKIE_NAME]
-                instance.session = cookies[BaseModel::SESSION_COOKIE_NAME]
+                instance.session = cookies[SESSION_COOKIE_NAME]
               end
             end
           end
