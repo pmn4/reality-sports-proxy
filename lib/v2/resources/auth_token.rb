@@ -13,7 +13,7 @@ module RSA
           route :post, '/tokens', :auth
 
           def auth
-            subscribe!
+            subscribe!(form[:username])
 
             self.auth_token = Models::AuthToken
               .create(form[:username], form[:password])
@@ -25,11 +25,11 @@ module RSA
 
           private
 
-          def subscribe!
+          def subscribe!(email)
             return if request.env['MAILCHIMP-API-KEY'].nil?
 
             Mailchimp::API.new(request.env['MAILCHIMP-API-KEY'])
-              .lists.subscribe(MAILCHIMP_LIST_ID, email: form[:username])
+              .lists.subscribe(MAILCHIMP_LIST_ID, email: email)
           rescue => e
             return if e.message.include?('already subscribed')
 
