@@ -47,6 +47,8 @@ module RSA
             })
 
             self
+          rescue JSON::ParserError
+            raise RsoNotAuthorizedError
           end
 
           def set_league(league)

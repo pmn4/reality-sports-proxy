@@ -17,9 +17,11 @@ module RSA
                 password: password
               })
 
+              raise ModelError, response.body unless response.headers.respond_to?(:[])
+
               cookie_headers = [response.headers['Set-Cookie']].flatten
 
-              raise ModelError if cookie_headers.nil?
+              raise ModelError, response.body if cookie_headers.nil?
 
               cookies = Hash[
                 cookie_headers.map { |c| c.split(';').first.split('=', 2) }

@@ -9,12 +9,6 @@ module RSA
         field :last_name, 'lastName'
         field :position
         field :nfl_team, 'nflTeam'
-
-        def blank?
-          (first_name.nil? || first_name.empty?) &&
-           (last_name.nil? || last_name.empty?) &&
-           (nfl_team.nil? || nfl_team.empty?)
-        end
       end
     end
   end

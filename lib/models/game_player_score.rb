@@ -14,10 +14,6 @@ module RSA
         field :projected_points, 'projectedPoints'
         field :status # active, bench, injured, etc
 
-        def blank?
-          player.blank?
-        end
-
         def active?
           status == STATUS_MAP[1]
         end

@@ -5,6 +5,7 @@ require __FILE__.sub('/spec/lib/', '/lib/').sub(/_spec\.rb$/, '.rb')
 
 describe RSA::API::V2::Resources::GameSummary do
   let(:app) { V2GameSummaryApp }
+  let(:token) { SecureRandom.hex }
 
   context '#read' do
     let(:league_id) { 'x' } # as defined in the data file
@@ -24,10 +25,12 @@ describe RSA::API::V2::Resources::GameSummary do
           url.include?('Score/GetLiveScoreForLeagueGame') &&
             options[:params][:leagueId] == league_id.to_s &&
             options[:params][:weekNum] == week.to_s &&
-            options[:params][:homeTeamId] == game_id.to_s
+            options[:params][:homeTeamId] == game_id.to_s &&
+            options[:headers][:Cookie].include?(token)
         end
         .returns(response)
 
+      header(RSA::API::Models::AuthToken::TOKEN_HEADER_NAME, token)
       get "/leagues/#{ league_id }/scoreboards/#{ week }/game_summaries/#{ game_id }"
     end
 

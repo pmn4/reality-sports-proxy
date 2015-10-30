@@ -5,6 +5,7 @@ require __FILE__.sub('/spec/lib/', '/lib/').sub(/_spec\.rb$/, '.rb')
 
 describe RSA::API::V2::Resources::Scoreboard do
   let(:app) { V2ScoreboardApp }
+  let(:token) { SecureRandom.hex }
 
   context '#read' do
     let(:league_id) { 'x' } # as defined in the data file
@@ -22,10 +23,12 @@ describe RSA::API::V2::Resources::Scoreboard do
         .with do |url, options|
           url.include?('League/GetScoreboard') &&
             options[:params][:leagueId] == league_id.to_s &&
-            options[:params][:weekNum] == week.to_s
+            options[:params][:weekNum] == week.to_s &&
+            options[:headers][:Cookie].include?(token)
         end
         .returns(response)
 
+      header(RSA::API::Models::AuthToken::TOKEN_HEADER_NAME, token)
       get "/leagues/#{ league_id }/scoreboards/#{ week }"
     end
 

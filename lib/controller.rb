@@ -1,7 +1,7 @@
 require 'delegate'
 require 'active_support/core_ext/hash/indifferent_access'
 
-require_relative 'v2/models/auth_token'
+require_relative 'models/auth_token'
 
 class Controller < SimpleDelegator # delegates to app, therefore, `Controller.register!(self)` from within an app
   class << self
@@ -45,17 +45,14 @@ class Controller < SimpleDelegator # delegates to app, therefore, `Controller.re
 end
 
 class ApiController < Controller
-  TOKEN_RACK_HEADER_NAME = 'HTTP_X_RSO_AUTH_TOKEN'.freeze
-  TOKEN_HEADER_NAME = 'X-RSO-Auth-Token'.freeze
-
   def auth_token
-    request.env[TOKEN_RACK_HEADER_NAME]
+    request.env[RSA::API::Models::AuthToken::TOKEN_RACK_HEADER_NAME]
   end
 
   def auth_token=(auth_token)
     return if auth_token.nil? || auth_token.token.nil?
 
-    response.headers['Access-Control-Expose-Headers'] = TOKEN_HEADER_NAME
-    response.headers[TOKEN_HEADER_NAME] = auth_token.token
+    response.headers['Access-Control-Expose-Headers'] = RSA::API::Models::AuthToken::TOKEN_HEADER_NAME
+    response.headers[RSA::API::Models::AuthToken::TOKEN_HEADER_NAME] = auth_token.token
   end
 end

@@ -16,7 +16,7 @@ module RSA
 
         def ensure_success(response)
           raise OfflineError if response.code.zero?
-          raise RsoNotAuthorizedError, resposne.body if response.code == 401
+          raise RsoNotAuthorizedError, response.body if response.code == 401
         end
 
         def get(controller, method, params = {}, headers = {})

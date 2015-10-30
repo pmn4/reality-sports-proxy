@@ -40,13 +40,7 @@ module RSA
           end
 
           def auth
-            begin
-              Mailchimp::API.new(ENV['MAILCHIMP-API-KEY'])
-                .lists.subscribe('cff0a01585', email: params[:username])
-            rescue => e
-              puts "MailChimp error: #{ e.message }"
-              puts e.backtrace
-            end
+            subscribe!
 
             form = auth_form
             auth_token = Requests::AuthToken.new(request)
@@ -61,6 +55,18 @@ module RSA
             response.headers[Models::AuthToken::TOKEN_HEADER_NAME] = auth_token.token
 
             204
+          end
+
+          private
+
+          def subscribe!
+            return if ENV['MAILCHIMP-API-KEY'].nil?
+
+            Mailchimp::API.new(ENV['MAILCHIMP-API-KEY'])
+              .lists.subscribe('cff0a01585', email: params[:username])
+          rescue => e
+            puts "MailChimp error: #{ e.message }"
+            puts e.backtrace
           end
         end
       end

@@ -9,7 +9,7 @@ task default: :help
 desc 'Run RSpec test suite'
 task :spec do
   RSpec::Core::RakeTask.new(:spec) do |t|
-    t.rspec_opts = ['--color --format d']
+    t.rspec_opts = ['--color --format d'] #  --seed 47653
     t.pattern = './spec/**/*.rb'
   end
 end

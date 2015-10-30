@@ -5,6 +5,7 @@ require __FILE__.sub('/spec/lib/', '/lib/').sub(/_spec\.rb$/, '.rb')
 
 describe RSA::API::V2::Resources::League do
   let(:app) { V2LeagueApp }
+  let(:token) { SecureRandom.hex }
 
   context '#list' do
     let(:response) {
@@ -18,10 +19,12 @@ describe RSA::API::V2::Resources::League do
     before do
       Typhoeus.expects(:get)
         .with do |url, options|
-          url.include?('League/AllLeaguesForUser')
+          url.include?('League/AllLeaguesForUser') &&
+            options[:headers][:Cookie].include?(token)
         end
         .returns(response)
 
+      header(RSA::API::Models::AuthToken::TOKEN_HEADER_NAME, token)
       get "/leagues"
     end
 
