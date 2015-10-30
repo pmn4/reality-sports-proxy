@@ -51,18 +51,21 @@ module RSA
         error RsoNotAuthorizedError do
           e = env['sinatra.error']
           content_type 'text/plain'
+          puts 'debug (not authorized) ' * 3, e.message
           [401, e.message || 'Unauthorized']
         end
 
         error RsoServerError do
           e = env['sinatra.error']
           content_type 'text/plain'
+          puts 'debug (server error) ' * 3, e.message
           [502, e.message || 'Reality Sports Online server error']
         end
 
         error RsoSessionError do
           e = env['sinatra.error']
           content_type 'text/plain'
+          puts 'debug (session error) ' * 3, e.message
           [502, e.message || 'Reality Sports Online session error']
         end
 
