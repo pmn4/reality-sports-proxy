@@ -8,8 +8,8 @@ require_relative '../routes/log_controller'
 require_relative 'resources/auth_token'
 require_relative 'resources/game_summary'
 require_relative 'resources/league'
+require_relative 'resources/league_standing'
 require_relative 'resources/scoreboard'
-# require_relative 'resources/standing'
 
 module RSA
   module API
@@ -38,13 +38,12 @@ module RSA
         Resources::AuthToken.register!(self)
         Resources::League.register!(self)
         Resources::Scoreboard.register!(self)
-        # Resources::Standing.register!(self)
+        Resources::LeagueStanding.register!(self)
         Resources::GameSummary.register!(self)
         Routes::CorsController.register!(self)
         Routes::LogController.register!(self)
 
         error ModelError do
-        # error V1::ModelError, V2::ModelError do # but really, roll up to a non-versioned
           e = env['sinatra.error']
           content_type 'text/plain'
           [400, e.message || 'Could not parse reponse']
@@ -62,6 +61,13 @@ module RSA
           content_type e.content_type
           puts 'debug (server error) ' * 3, e.message
           [502, e.message || 'Reality Sports Online server error']
+        end
+
+        error OfflineError do
+          e = env['sinatra.error']
+          content_type e.content_type
+          puts 'debug (offline error) ' * 3, e.message
+          [502, e.message || 'Server proxy error']
         end
 
         error do

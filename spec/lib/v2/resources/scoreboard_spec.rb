@@ -29,7 +29,7 @@ describe RSA::API::V2::Resources::Scoreboard do
         .returns(response)
 
       header(RSA::API::Models::AuthToken::TOKEN_HEADER_NAME, token)
-      get "/leagues/#{ league_id }/scoreboards/#{ week }"
+      get "/leagues/#{ league_id }/weeks/#{ week }/scoreboards"
     end
 
     it 'extracts the week' do

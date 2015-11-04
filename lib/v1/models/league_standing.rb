@@ -5,6 +5,14 @@ module RSA
     module V1
       module Models
         class LeagueStanding < API::Models::LeagueStanding
+          # totally different than the base model
+          field :team
+          field :wins
+          field :losses
+          field :ties
+          field :points
+          field :waiver_priority, 'waiverPriority'
+
           class << self
             def from_node(node)
               raise ModelError if node.nil? || node.blank?

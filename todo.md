@@ -1,3 +1,6 @@
-- mongo for storing emails
+TODO:
+- projections w/actual points
+- weeks
+
+DONE:
 - tests
-- projections

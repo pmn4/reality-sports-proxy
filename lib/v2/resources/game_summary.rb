@@ -6,7 +6,8 @@ module RSA
     module V2
       module Resources
         class GameSummary < ApiController
-          route :get, '/leagues/:league_id/scoreboards/:week/game_summaries/:game_id?', :read
+          route :get, '/leagues/:league_id/scoreboards/:week/game_summaries/:game_id?', :read # deprecate
+          route :get, '/leagues/:league_id/weeks/:week/game_summaries/:game_id?', :read
 
           def read(league_id, week, game_id = nil)
             Models::GameSummary

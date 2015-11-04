@@ -6,7 +6,8 @@ module RSA
     module V2
       module Resources
         class Scoreboard < ApiController
-          route :get, '/leagues/:league_id/scoreboards/:week?', :read
+          route :get, '/leagues/:league_id/scoreboards/:week?', :read # deprecate
+          route :get, '/leagues/:league_id/weeks/:week/scoreboards', :read
 
           def read(league_id, week)
             Models::Scoreboard

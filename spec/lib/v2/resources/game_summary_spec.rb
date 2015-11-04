@@ -31,7 +31,7 @@ describe RSA::API::V2::Resources::GameSummary do
         .returns(response)
 
       header(RSA::API::Models::AuthToken::TOKEN_HEADER_NAME, token)
-      get "/leagues/#{ league_id }/scoreboards/#{ week }/game_summaries/#{ game_id }"
+      get "/leagues/#{ league_id }/weeks/#{ week }/game_summaries/#{ game_id }"
     end
 
     it 'extracts the home team' do
