@@ -31,6 +31,9 @@ RSpec.configure do |config|
   Typhoeus::Request.expects(:delete).never
   Typhoeus::Hydra.expects(:new).never
 
+  # don't commit debug code
+  TyphoeusToCurl.expects(:new).never
+
   config.before do
     allow_any_instance_of(RSA::API::V1::Requests::Base)
       .to receive(:print_timing_info) # ignore

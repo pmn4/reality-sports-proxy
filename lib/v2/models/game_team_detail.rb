@@ -30,6 +30,12 @@ module RSA
                   .map(&:projected_points)
                   .compact
                   .reduce(:+)
+
+                instance.summary.adjusted_points = instance.player_scores
+                  .select { |s| s.active? }
+                  .map(&:adjusted_points)
+                  .compact
+                  .reduce(:+)
               end
             end
           end

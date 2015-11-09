@@ -13,8 +13,8 @@ module RSA
                 new.tap do |instance|
                   instance.player = Player.from_hash(hash)
                   instance.game = NflGame.from_hash(hash)
-                  instance.position = hash['startingSlot']
                   instance.points = hash['fantasyPoints']
+                  instance.position = hash['startingSlot']
                   instance.projected_points = hash['projectedPoints']
                   instance.status = status(hash['status'])
                   instance.stat_line = hash['statSummary']

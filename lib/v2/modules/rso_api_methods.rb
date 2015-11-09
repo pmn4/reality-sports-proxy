@@ -1,3 +1,4 @@
+require_relative 'typhoeus_to_curl'
 require_relative '../../errors'
 
 module RSA
@@ -30,8 +31,10 @@ module RSA
           }).tap do |response|
             print_timing_info(start, "GET #{ url }", params)
             ensure_success(response)
+          # end.tap do |response|
+          #   puts response.body
+          #   puts TyphoeusToCurl.new(response.request).to_curl
           end
-          # end.tap { |r| p r.body }
         end
 
         def post(controller, method, body = {}, headers = {})
@@ -46,8 +49,10 @@ module RSA
             print_timing_info(start, "POST #{ url }", 'body - (hidden for data security)', headers)
             # print_timing_info(start, "POST #{ url }", body)
             ensure_success(response)
+          # end.tap do |response|
+          #   puts response.body
+          #   puts TyphoeusToCurl.new(response.request).to_curl
           end
-          # end.tap { |r| p r.body }
         end
 
         def auth_token_header

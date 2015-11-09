@@ -9,6 +9,7 @@ module RSA
         field :player_time_remaining, 'playerTimeRemaining'
         field :projected_points, 'projectedPoints'
         field :total_points, 'totalPoints'
+        field :adjusted_points, 'adjustedPoints'
       end
     end
   end

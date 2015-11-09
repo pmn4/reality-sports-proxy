@@ -14,8 +14,19 @@ module RSA
         field :projected_points, 'projectedPoints'
         field :status # active, bench, injured, etc
 
+        def self.computed_fields
+          { adjusted_points: 'adjustedPoints' }
+        end
+
         def active?
           status == STATUS_MAP[1]
+        end
+
+        def adjusted_points
+          return nil if projected_points.nil?
+          return nil unless game.respond_to?(:completion_ratio)
+
+          projected_points * (1.0 - game.completion_ratio) + (points || 0.0)
         end
 
         private
