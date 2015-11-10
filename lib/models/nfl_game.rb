@@ -20,7 +20,7 @@ module RSA
         #  Final
         GAME_STATUS_FINAL = 'Final'.freeze
         GAME_STATUS_FUTURE = /\w+ \d+ \d+:\d/.freeze
-        GAME_STATUS_LIVE = /Q(?<q>\d) (?<m>\d+):(?<s>\d+)/
+        GAME_STATUS_LIVE = /Q(?<q>\d) (?<m>\d*):(?<s>\d+)/
         def completion_ratio
           return 1.0 if game_status == GAME_STATUS_FINAL
           return 0.0 if game_status =~ GAME_STATUS_FUTURE
@@ -31,7 +31,7 @@ module RSA
 
           [
             1.0,
-            ((tokens[:q].to_i - 1) * 15.0 + tokens[:m].to_i + tokens[:s].to_i / 60.0) / 60.0
+            ((tokens[:q].to_i) * 15.0 - tokens[:m].to_i - tokens[:s].to_i / 60.0) / 60.0
           ].min
         end
       end
