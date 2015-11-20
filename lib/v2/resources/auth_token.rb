@@ -30,6 +30,8 @@ module RSA
 
             Mailchimp::API.new(request.env['MAILCHIMP-API-KEY'])
               .lists.subscribe(MAILCHIMP_LIST_ID, email: email)
+
+            puts "MailChimp Subscription: #{ email }"
           rescue => e
             return if e.message.include?('already subscribed')
 

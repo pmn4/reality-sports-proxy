@@ -9,6 +9,8 @@ module RSA
           SESSION_RACK_HEADER_NAME = 'HTTP_X_RSO_SESSION'.freeze
           SESSION_HEADER_NAME = 'X-RSO-Session'.freeze
 
+          field :session
+
           class << self
             def from_response(response)
               cookie_headers = [response.headers['Set-Cookie']].flatten
@@ -22,6 +24,8 @@ module RSA
               new.tap do |instance|
                 instance.token = cookies[TOKEN_COOKIE_NAME]
                 instance.session = cookies[SESSION_COOKIE_NAME]
+                # instance.id = ???
+                instance.user_name = username
               end
             end
           end

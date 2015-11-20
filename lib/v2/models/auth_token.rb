@@ -29,7 +29,11 @@ module RSA
 
               raise response.body if cookies[TOKEN_COOKIE_NAME].nil?
 
-              new.tap { |i| i.token = cookies[TOKEN_COOKIE_NAME] }
+              new.tap do |instance|
+                # instance.id = ???
+                instance.user_name = username
+                instance.token = cookies[TOKEN_COOKIE_NAME]
+              end
             end
           end
         end

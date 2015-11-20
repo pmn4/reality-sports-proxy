@@ -13,6 +13,9 @@ module RSA
 
           class << self
             def fetch(league_id, week)
+              raise ModelError, 'League Id is required' if league_id.nil?
+              raise ModelError, 'Week is required' if week.nil?
+
               response = get(:League, :GetScoreboard, {
                 leagueId: league_id,
                 weekNum: week
