@@ -44,8 +44,11 @@ describe RSA::API::V2::Resources::AuthToken do
       end
 
       it 'sets the status' do
-        expect(last_response.status).to eq(201)
+        expect(last_response).to be_ok
       end
+
+      it 'returns userName'
+      it 'returns userHash'
     end
 
     context 'with incorrect credentials' do
@@ -102,7 +105,7 @@ describe RSA::API::V2::Resources::AuthToken do
 
         post '/tokens', { username: username, password: password }.to_json
 
-        expect(last_response.status).to eq(201)
+        expect(last_response).to be_ok
       end
     end
   end

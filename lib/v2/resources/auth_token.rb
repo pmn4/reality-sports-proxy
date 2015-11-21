@@ -13,12 +13,15 @@ module RSA
           route :post, '/tokens', :auth
 
           def auth
+            controller = self
+
             subscribe!(form[:username])
 
-            self.auth_token = Models::AuthToken
+            # set appropriate response headers
+            Models::AuthToken
               .create(form[:username], form[:password])
-
-            201
+              .tap { |t| controller.auth_token = t } # set response headers
+              .to_json
           rescue => e
             [404, e.message]
           end

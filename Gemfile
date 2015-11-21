@@ -13,6 +13,8 @@ gem 'mailchimp-api', require: 'mailchimp'
 gem 'typhoeus'
 gem 'nokogiri'
 
+gem 'newrelic_rpm'
+
 group :test do
   gem 'mocha', '~> 1.1.0'
   gem 'rack-test', require: 'rack/test'
