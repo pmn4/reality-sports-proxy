@@ -29,6 +29,7 @@ module RSA
           private
 
           def subscribe!(email)
+            puts 'MailChimp Key is nil' if request.env['MAILCHIMP-API-KEY'].nil?
             return if request.env['MAILCHIMP-API-KEY'].nil?
 
             Mailchimp::API.new(request.env['MAILCHIMP-API-KEY'])
@@ -36,7 +37,7 @@ module RSA
 
             puts "MailChimp Subscription: #{ email }"
           rescue => e
-            return if e.message.include?('already subscribed')
+            # return if e.message.include?('already subscribed')
 
             puts "MailChimp error: #{ e.message }"
             puts e.backtrace
