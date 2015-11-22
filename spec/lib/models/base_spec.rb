@@ -13,7 +13,7 @@ describe RSA::API::Models::Base do
   end
 
   describe '.from_array' do
-    let(:num) { SecureRandom.random_number(20) }
+    let(:num) { SecureRandom.random_number(10) + 10 } # 10 < x < 20
     let(:instances) { TestBase.from_array Array.new(num) }
 
     it 'creates the correct number of of instances' do
