@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/base'
 require 'logger'
+require 'newrelic_rpm'
 
 require_relative 'modules/rack_helpers.rb'
 
