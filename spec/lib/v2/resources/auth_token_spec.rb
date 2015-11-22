@@ -87,7 +87,11 @@ describe RSA::API::V2::Resources::AuthToken do
 
         expect(Mailchimp::API).to receive(:new).and_return(email_api)
 
-        env('MAILCHIMP-API-KEY', SecureRandom.hex)
+        ENV['MAILCHIMP-API-KEY'] = SecureRandom.hex
+      end
+
+      after do
+        ENV.delete('MAILCHIMP-API-KEY')
       end
 
       it 'registers with MailChimp' do
