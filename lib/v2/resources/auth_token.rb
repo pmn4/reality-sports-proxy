@@ -36,7 +36,7 @@ module RSA
 
             puts "MailChimp Subscription: #{ email }"
           rescue => e
-            # return if e.message.include?('already subscribed')
+            return if e.message.include?('already subscribed')
 
             puts "MailChimp error: #{ e.message }"
             puts e.backtrace
