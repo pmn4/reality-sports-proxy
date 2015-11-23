@@ -14,6 +14,8 @@ module RSA
         field :projected_points, 'projectedPoints'
         field :status # active, bench, injured, etc
 
+        TEAM_DEFENSE_POSITION = 'DST'.freeze
+
         def self.computed_fields
           { adjusted_points: 'adjustedPoints' }
         end
@@ -25,6 +27,8 @@ module RSA
         def adjusted_points
           return nil if projected_points.nil?
           return nil unless game.respond_to?(:completion_ratio)
+
+          return points if position == TEAM_DEFENSE_POSITION && game.completion_ratio > 0.0
 
           projected_points * (1.0 - game.completion_ratio) + (points || 0.0)
         end

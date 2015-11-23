@@ -21,7 +21,7 @@ describe RSA::API::Models::GamePlayerScore do
     it 'handles in-game' do
       instance.points = 10.0
 
-      instance.game.stubs(:completion_ratio).returns(0.20)
+      instance.game.stubs(:completion_ratio).returns(0.2)
 
       expect(instance.adjusted_points)
         .to eq(30.0)
@@ -34,6 +34,37 @@ describe RSA::API::Models::GamePlayerScore do
 
       expect(instance.adjusted_points)
         .to eq(instance.points)
+    end
+
+    context 'when player is team defense' do
+      before do
+        instance.position = described_class::TEAM_DEFENSE_POSITION
+      end
+
+      it 'handles pre-game' do
+        instance.game.stubs(:completion_ratio).returns(0.0)
+
+        expect(instance.adjusted_points)
+          .to eq(instance.projected_points)
+      end
+
+      it 'handles in-game' do
+        instance.points = SecureRandom.random_number + 10.0
+
+        instance.game.stubs(:completion_ratio).returns(0.2)
+
+        expect(instance.adjusted_points)
+          .to eq(instance.points)
+      end
+
+      it 'handles end-of-game' do
+        instance.points = SecureRandom.random_number + 10.0
+
+        instance.game.stubs(:completion_ratio).returns(1.0)
+
+        expect(instance.adjusted_points)
+          .to eq(instance.points)
+      end
     end
   end
 
