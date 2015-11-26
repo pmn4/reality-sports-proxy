@@ -65,7 +65,7 @@ module RSA
 
         def api_url(controller, method)
           # load this up from config on registered, or whatever
-          "http://rsoapidev.azurewebsites.net/api/#{ controller }/#{ method }"
+          "http://api.realitysportsonline.com/api/#{ controller }/#{ method }"
         end
 
         def print_timing_info(start, action, *args)
