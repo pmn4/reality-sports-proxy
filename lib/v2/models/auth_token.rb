@@ -24,7 +24,9 @@ module RSA
               raise ModelError, response.body if cookie_headers.nil?
 
               cookies = Hash[
-                cookie_headers.map { |c| c.split(';').first.split('=', 2) }
+                cookie_headers
+                  .compact
+                  .map { |c| c.split(';').first.split('=', 2) }
               ]
 
               raise response.body if cookies[TOKEN_COOKIE_NAME].nil?

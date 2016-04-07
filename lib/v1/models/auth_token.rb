@@ -18,7 +18,9 @@ module RSA
               raise ModelError if cookie_headers.nil?
 
               cookies = Hash[
-                cookie_headers.map { |c| c.split(';').first.split('=', 2) }
+                cookie_headers
+                  .compact
+                  .map { |c| c.split(';').first.split('=', 2) }
               ]
 
               new.tap do |instance|
