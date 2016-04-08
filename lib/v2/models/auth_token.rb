@@ -26,10 +26,12 @@ module RSA
               cookies = Hash[
                 cookie_headers
                   .compact
-                  .map { |c| c.split(';').first.split('=', 2) }
+                  .map { |c| c.split(';').first }
+                  .compact
+                  .map { |c| c.split('=', 2) }
               ]
 
-              raise response.body if cookies[TOKEN_COOKIE_NAME].nil?
+              raise ModelError, response.body if cookies[TOKEN_COOKIE_NAME].nil?
 
               new.tap do |instance|
                 # instance.id = ???
