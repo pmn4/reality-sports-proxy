@@ -18,6 +18,7 @@ module RSA
         def ensure_success(response)
           raise OfflineError if response.code.zero?
           raise RsoNotAuthorizedError, response.body if response.code == 401
+          raise RsoPaymentRequiredError, response.body if response.code == 402
         end
 
         def get(controller, method, params = {}, headers = {})
@@ -25,7 +26,7 @@ module RSA
           url = api_url(controller, method)
 
           Typhoeus.get(url, {
-            # verbose: true,
+            verbose: true,
             params: params,
             headers: auth_token_header.merge(headers)
           }).tap do |response|
@@ -42,7 +43,7 @@ module RSA
           url = api_url(controller, method)
 
           Typhoeus.post(url, {
-            # verbose: true,
+            verbose: true,
             body: body,
             headers: auth_token_header.merge(headers)
           }).tap do |response|
@@ -65,7 +66,11 @@ module RSA
 
         def api_url(controller, method)
           # load this up from config on registered, or whatever
-          "http://api.realitysportsonline.com/api/#{ controller }/#{ method }"
+          if ENV['RACK_ENV'] == 'development'
+            "http://rsoapidev.azurewebsites.net/api/#{ controller }/#{ method }"
+          else
+            "http://api.realitysportsonline.com/api/#{ controller }/#{ method }"
+          end
         end
 
         def print_timing_info(start, action, *args)

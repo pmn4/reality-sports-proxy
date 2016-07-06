@@ -19,6 +19,33 @@ module RSA
             end
           end
         end
+
+        class ScoredPlayer < Player
+          include API::Models::ScoredPlayer
+
+          class << self
+            def from_hash(hash)
+              return if hash.nil?
+
+              super.tap do |instance|
+                instance.status = hash['lineupStatus']
+                instance.injury_status = hash['injuryStatus']
+                instance.starting_slot = hash['startingSlot']
+                instance.game_status = hash['gameStatus']
+                instance.bye = hash['byeWeek']
+                instance.opponent_rank = hash['oppRank']
+                instance.percent_started = hash['percentStarted']
+                instance.last_points = hash['lastPoints']
+                instance.projected_points = hash['projPoints']
+                instance.locked = hash['isLocked']
+                instance.salary = hash['salary']
+                instance.position_rank = hash['posRank']
+                instance.percent_owned = hash['percentOwned']
+                instance.average_points = hash['avgPoints']
+              end
+            end
+          end
+        end
       end
     end
   end

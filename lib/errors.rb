@@ -26,6 +26,19 @@ module RSA
     end
 
     class RsoNotAuthorizedError < RsoStandardError; end
+
+    class RsoPaymentRequiredError < RsoStandardError
+      alias _message message
+
+      def message
+        errors = ['Where\'s the money, Lebowski?']
+
+        errors << "(#{ _message })" unless _message.nil? || _message.empty?
+
+        errors.to_json
+      end
+    end
+
     class RsoServerError < RsoStandardError; end
     class RsoSessionError < RsoStandardError; end
   end

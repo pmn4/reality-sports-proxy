@@ -10,6 +10,7 @@ require_relative 'resources/game_summary'
 require_relative 'resources/league'
 require_relative 'resources/league_standing'
 require_relative 'resources/scoreboard'
+require_relative 'resources/team'
 
 module RSA
   module API
@@ -38,6 +39,7 @@ module RSA
         Resources::AuthToken.register!(self)
         Resources::League.register!(self)
         Resources::Scoreboard.register!(self)
+        Resources::Team.register!(self)
         Resources::LeagueStanding.register!(self)
         Resources::GameSummary.register!(self)
         Routes::CorsController.register!(self)
@@ -61,6 +63,12 @@ module RSA
           content_type e.content_type
           puts 'debug (server error) ' * 3, e.message
           [502, e.message || 'Reality Sports Online server error']
+        end
+
+        error RsoStandardError do
+          e = env['sinatra.error']
+          content_type e.content_type
+          [402, e.message]
         end
 
         error OfflineError do

@@ -10,9 +10,9 @@ module RSA
               new.tap do |instance|
                 instance.game_status = hash['gameStatus'].strip
                 instance.team = hash['nflTeam'].strip
-                instance.team_score = hash['OwnTeamScore']
-                instance.opponent = hash['Opponent'].strip
-                instance.opponent_score = hash['OpponentScore']
+                instance.team_score = hash['ownTeamScore']
+                instance.opponent = hash['opponent'].strip
+                instance.opponent_score = hash['opponentScore']
               end
             end
           end
