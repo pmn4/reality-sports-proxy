@@ -1,7 +1,7 @@
 require 'delegate'
 
 require_relative '../../models/scoreboard'
-require_relative '../modules/rso_api_methods'
+require_relative '../../rso_api_methods'
 require_relative 'box_score'
 
 module RSA

@@ -1,5 +1,5 @@
 require_relative '../../models/game_summary'
-require_relative '../modules/rso_api_methods'
+require_relative '../../rso_api_methods'
 
 require_relative 'game_team_detail'
 

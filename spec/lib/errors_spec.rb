@@ -24,18 +24,6 @@ describe RSA::API::RsoStandardError do
             }.not_to raise_error
           end
         end
-
-        describe 'without json response' do
-          let(:response) {
-            SecureRandom.hex
-          }
-          let(:instance) { described_class.new(response) }
-
-          it 'sets content_type' do
-            expect(instance.content_type)
-              .to include('text/plain')
-          end
-        end
       end
     end
 end

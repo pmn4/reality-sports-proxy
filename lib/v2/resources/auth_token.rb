@@ -1,5 +1,3 @@
-require 'mailchimp'
-
 require_relative '../../controller'
 require_relative '../models/auth_token'
 
@@ -15,8 +13,6 @@ module RSA
           def auth
             controller = self
 
-            subscribe!(form[:username])
-
             # set appropriate response headers
             Models::AuthToken
               .create(form[:username], form[:password])
@@ -24,22 +20,6 @@ module RSA
               .to_json
           rescue => e
             [404, e.message]
-          end
-
-          private
-
-          def subscribe!(email)
-            return if ENV['MAILCHIMP-API-KEY'].nil?
-
-            Mailchimp::API.new(ENV['MAILCHIMP-API-KEY'])
-              .lists.subscribe(MAILCHIMP_LIST_ID, email: email)
-
-            puts "MailChimp Subscription: #{ email }"
-          rescue => e
-            return if e.message.include?('already subscribed')
-
-            puts "MailChimp error: #{ e.message }"
-            puts e.backtrace
           end
         end
       end

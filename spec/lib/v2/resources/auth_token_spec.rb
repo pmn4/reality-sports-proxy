@@ -73,47 +73,6 @@ describe RSA::API::V2::Resources::AuthToken do
     end
   end
 
-  context '#subscribe!' do
-    context 'Mailing list support' do
-      let(:email_client) { double }
-      let(:email_api) {
-        double(lists: email_client)
-      }
-      before do
-        # for some reason, stubbing Models::AuthToken.create was affecting
-        # tests frmo other contexts.  no idea.
-        Typhoeus.expects(:post).returns(ok_response)
-        allow_any_instance_of(IO).to receive(:puts)
-
-        expect(Mailchimp::API).to receive(:new).and_return(email_api)
-
-        ENV['MAILCHIMP-API-KEY'] = SecureRandom.hex
-      end
-
-      after do
-        ENV.delete('MAILCHIMP-API-KEY')
-      end
-
-      it 'registers with MailChimp' do
-        expect(email_client)
-          .to receive(:subscribe)
-            .with(described_class::MAILCHIMP_LIST_ID, email: username)
-
-        post '/tokens', { username: username, password: password }.to_json
-      end
-
-      it 'handles MailChimp errors' do
-        expect(email_client)
-          .to receive(:subscribe)
-            .and_raise('Nope!')
-
-        post '/tokens', { username: username, password: password }.to_json
-
-        expect(last_response).to be_ok
-      end
-    end
-  end
-
   class V2AuthTokenApp < Sinatra::Base
     RSA::API::V2::Resources::AuthToken.register! self
   end

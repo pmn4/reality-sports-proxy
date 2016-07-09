@@ -8,11 +8,15 @@ module RSA
           class << self
             def from_hash(hash)
               new.tap do |instance|
-                instance.game_status = hash['gameStatus'].strip
-                instance.team = hash['nflTeam'].strip
-                instance.team_score = hash['OwnTeamScore']
-                instance.opponent = hash['Opponent'].strip
-                instance.opponent_score = hash['OpponentScore']
+                instance.game_status = hash['gameStatus']
+                instance.team = hash['nflTeam']
+                instance.team_score = hash['ownTeamScore']
+                instance.opponent = hash['opponent']
+                instance.opponent_score = hash['opponentScore']
+
+                instance.game_status.strip! if instance.game_status.respond_to?(:strip!)
+                instance.team.strip! if instance.team.respond_to?(:strip!)
+                instance.opponent.strip! if instance.opponent.respond_to?(:strip!)
               end
             end
           end

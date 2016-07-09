@@ -1,5 +1,5 @@
 require_relative '../../models/division'
-require_relative '../modules/rso_api_methods'
+require_relative '../../rso_api_methods'
 
 module RSA
   module API

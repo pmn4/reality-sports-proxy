@@ -56,11 +56,23 @@ module RSA
           [401, e.message || 'Unauthorized']
         end
 
+        error RsoPaymentRequiredError do
+          e = env['sinatra.error']
+          content_type e.content_type
+          [402, e.message]
+        end
+
         error RsoServerError do
           e = env['sinatra.error']
           content_type e.content_type
           puts 'debug (server error) ' * 3, e.message
           [502, e.message || 'Reality Sports Online server error']
+        end
+
+        error RsoStandardError do
+          e = env['sinatra.error']
+          content_type e.content_type
+          [400, e.message || 'Bad Request']
         end
 
         error OfflineError do
