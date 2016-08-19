@@ -68,11 +68,11 @@ module RSA
 
       def api_url(controller, method)
         # load this up from config on registered, or whatever
-        if ENV['RACK_ENV'] == 'development'
-          "http://rsoapidev.azurewebsites.net/api/#{ controller }/#{ method }"
-        else
+        # if ENV['RACK_ENV'] == 'development'
+        #   "http://rsoapidev.azurewebsites.net/api/#{ controller }/#{ method }"
+        # else
           "https://api.realitysportsonline.com/api/#{ controller }/#{ method }"
-        end
+        # end
       end
 
       def print_timing_info(start, action, *args)
