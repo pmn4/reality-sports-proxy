@@ -82,6 +82,11 @@ module RSA
           [502, e.message || 'Server proxy error']
         end
 
+        error ImplementationError do
+          e = env['sinatra.error']
+          [405, e.message || 'Unrecognized Request']
+        end
+
         error do
           e = env['sinatra.error']
           puts e.message

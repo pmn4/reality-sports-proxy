@@ -2,6 +2,8 @@ require 'json'
 
 module RSA
   module API
+    class ImplementationError < StandardError; end
+
     class RsoStandardError < StandardError
       attr_accessor :is_json
 

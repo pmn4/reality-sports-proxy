@@ -20,6 +20,7 @@ module RSA
         raise RsoNotAuthorizedError, response.body if response.code == 401
         raise RsoPaymentRequiredError, response.body if response.code == 402
         raise RsoStandardError, response.body if response.code == 404
+        raise ImplementationError, response.body if response.code == 405
         raise RsoServerError, response.body if response.code == 500
       end
 
@@ -51,6 +52,41 @@ module RSA
         }).tap do |response|
           print_timing_info(start, "POST #{ url }", 'body - (hidden for data security)', headers)
           # print_timing_info(start, "POST #{ url }", body)
+          ensure_success(response)
+        # end.tap do |response|
+        #   puts response.body
+        #   puts TyphoeusToCurl.new(response.request).to_curl
+        end
+      end
+
+      def put(controller, method, body = {}, headers = {})
+        start = Time.now
+        url = api_url(controller, method)
+
+        Typhoeus.put(url, {
+          # verbose: true,
+          body: body,
+          headers: auth_token_header.merge(headers)
+        }).tap do |response|
+          print_timing_info(start, "PUT #{ url }", 'body - (hidden for data security)', headers)
+          # print_timing_info(start, "PUT #{ url }", body)
+          ensure_success(response)
+        # end.tap do |response|
+        #   puts response.body
+        #   puts TyphoeusToCurl.new(response.request).to_curl
+        end
+      end
+
+      def delete(controller, method, headers = {})
+        start = Time.now
+        url = api_url(controller, method)
+
+        Typhoeus.delete(url, {
+          # verbose: true,
+          headers: auth_token_header.merge(headers)
+        }).tap do |response|
+          print_timing_info(start, "DELETE #{ url }", nil, headers)
+          # print_timing_info(start, "DELETE #{ url }", nil)
           ensure_success(response)
         # end.tap do |response|
         #   puts response.body
