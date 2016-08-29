@@ -35,9 +35,9 @@ module RSA
         }).tap do |response|
           print_timing_info(start, "GET #{ url }", params)
           ensure_success(response)
-        # end.tap do |response|
-        #   puts response.body
-        #   puts TyphoeusToCurl.new(response.request).to_curl
+        end.tap do |response|
+          puts response.body
+          puts TyphoeusToCurl.new(response.request).to_curl
         end
       end
 
