@@ -24,6 +24,20 @@ describe RSA::API::V2::Resources::League do
         end
         .returns(response)
 
+      Typhoeus.expects(:get)
+        .with do |url, options|
+          url.include?('League/GetWeeks') &&
+            options[:headers][:Cookie].include?(token)
+        end
+        .at_least_once
+
+      Typhoeus.expects(:get)
+        .with do |url, options|
+          url.include?('Player/FreeAgentsPosCodes') &&
+            options[:headers][:Cookie].include?(token)
+        end
+        .at_least_once
+
       header(RSA::API::Models::AuthToken::TOKEN_HEADER_NAME, token)
       get "/leagues"
     end

@@ -8,6 +8,9 @@ module RSA
         field :league_id, 'leagueId'
         field :name
         field :team # Team
+
+        field :player_positions, 'playerPositions'
+        field :weeks
       end
     end
   end
