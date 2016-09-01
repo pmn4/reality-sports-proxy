@@ -11,10 +11,10 @@ module RSA
               raise ModelError, 'League Id is required' if league_id.nil?
               raise ModelError, 'Team Id is required' if team_id.nil?
 
-              response = get(:Acquisition, :FAABRequest, params.merge({
+              response = get(:Acquisition, :FAABRequest, {
                 leagueId: league_id,
                 teamId: team_id
-              }))
+              })
 
               response.body
             end

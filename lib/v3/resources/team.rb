@@ -12,9 +12,6 @@ module RSA
           route :get, '/leagues/:league_id/teams/:team_id/news', :news
 
           def news(league_id, team_id)
-            # Models::Player
-            #   .with_token(auth_token)
-            #   .list(league_id, { teamId: team_id, playerFilter: :myroster })
             []
           end
 
@@ -47,16 +44,18 @@ module RSA
           route :put, '/leagues/:league_id/teams/:team_id/bids/:bid_id', :update_bid
           route :delete, '/leagues/:league_id/teams/:team_id/bids/:bid_id', :destroy_bid
 
-          def list_bid(league_id, team_id)
+          def list_bids(league_id, team_id)
             Models::Bid
               .with_token(auth_token)
               .list(league_id, team_id)
           end
 
           def create_bid(league_id, team_id)
-            Models::Bid
+            this_returns_a_string = Models::Bid
               .with_token(auth_token)
               .create(league_id, team_id, form[:bid])
+
+            { message: this_returns_a_string }.to_json
           end
 
           def update_bid(league_id, team_id, acquisition_id)
