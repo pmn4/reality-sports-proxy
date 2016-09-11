@@ -13,8 +13,6 @@ module RSA
                 instance.last_name = hash['lastName'].strip
                 instance.position = hash['pos'].strip
                 instance.nfl_team = hash['nflTeam'].strip
-
-                instance.player_id.strip! if instance.player_id.respond_to?(:strip!)
               end
             end
           end
