@@ -11,7 +11,7 @@ module RSA
                 instance.player_id = hash['playerId']
                 instance.first_name = hash['firstName'].strip
                 instance.last_name = hash['lastName'].strip
-                instance.position = hash['pos'].strip
+                instance.position = hash['pos']
                 instance.nfl_team = hash['nflTeam'].strip
               end
             end
