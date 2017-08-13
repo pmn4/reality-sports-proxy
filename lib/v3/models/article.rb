@@ -10,11 +10,13 @@ module RSA
             def list(league_id, team_id = nil)
               raise ModelError, 'League Id is required' if league_id.nil?
 
+              params = { leagueId: league_id }
+              params[:teamId] = team_id unless team_id.nil?
+
               response = get(
                 :Player,
                 :News,
-                leagueId: league_id,
-                teamId: team_id
+                params
               )
 
               response.body

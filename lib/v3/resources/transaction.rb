@@ -1,5 +1,5 @@
 require_relative '../../controller'
-require_relative '../models/player_position'
+require_relative '../models/transaction'
 
 module RSA
   module API
