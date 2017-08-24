@@ -33,11 +33,11 @@ module RSA
           params: params,
           headers: auth_token_header.merge(headers)
         }).tap do |response|
-          print_timing_info(start, "GET #{ url }", params)
-          ensure_success(response)
-        # end.tap do |response|
         #   puts response.body
         #   puts TyphoeusToCurl.new(response.request).to_curl
+        # end.tap do |response|
+          print_timing_info(start, "GET #{ url }", params)
+          ensure_success(response)
         end
       end
 
@@ -50,12 +50,12 @@ module RSA
           body: body,
           headers: auth_token_header.merge(headers)
         }).tap do |response|
+        #   puts response.body
+        #   puts TyphoeusToCurl.new(response.request).to_curl
+        # end.tap do |response|
           print_timing_info(start, "POST #{ url }", 'body - (hidden for data security)', headers)
           # print_timing_info(start, "POST #{ url }", body)
           ensure_success(response)
-        # end.tap do |response|
-        #   puts response.body
-        #   puts TyphoeusToCurl.new(response.request).to_curl
         end
       end
 
@@ -68,12 +68,12 @@ module RSA
           body: body,
           headers: auth_token_header.merge(headers)
         }).tap do |response|
+        #   puts response.body
+        #   puts TyphoeusToCurl.new(response.request).to_curl
+        # end.tap do |response|
           print_timing_info(start, "PUT #{ url }", 'body - (hidden for data security)', headers)
           # print_timing_info(start, "PUT #{ url }", body)
           ensure_success(response)
-        # end.tap do |response|
-        #   puts response.body
-        #   puts TyphoeusToCurl.new(response.request).to_curl
         end
       end
 
@@ -85,12 +85,12 @@ module RSA
           # verbose: true,
           headers: auth_token_header.merge(headers)
         }).tap do |response|
+        #   puts response.body
+        #   puts TyphoeusToCurl.new(response.request).to_curl
+        # end.tap do |response|
           print_timing_info(start, "DELETE #{ url }", nil, headers)
           # print_timing_info(start, "DELETE #{ url }", nil)
           ensure_success(response)
-        # end.tap do |response|
-        #   puts response.body
-        #   puts TyphoeusToCurl.new(response.request).to_curl
         end
       end
 
